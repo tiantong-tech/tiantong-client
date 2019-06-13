@@ -13,3 +13,5 @@ export default {
   name: 'App'
 }
 </script>
+
+<style lang="sass" src="@/assets/sass/index.sass"></style>
