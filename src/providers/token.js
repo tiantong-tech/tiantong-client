@@ -13,7 +13,7 @@ export default {
   /**
    * 1. 若未传入 token 则从 storage 中读取
    * 2. 若 token 不为空则执行 auth，否则 logout
-   * 3. 认证成功，得到 auth 数据，跳转至 /home
+   * 3. 认证成功，设置 auth、 数据
    * 4. 认证失败，直接 logout
    */
   async handleAuth (token = '') {
@@ -30,14 +30,17 @@ export default {
         token && this.set(token)
         Store.commit('setGroups', groups)
         Store.commit('setIsAuthed', true)
-        Router.push('/')
+        // Router.push('/')
       }
 
-      return getUserProfile()
+      await getUserProfile()
         .then(handleThen)
-        .catch(this.handleLogout)
+
+      return true
     } else {
       this.handleLogout()
+
+      return false
     }
   },
   /**

@@ -22,12 +22,14 @@ function beforeResponse (response) {
 }
 
 function beforeError (error) {
-  if (!error.response) {
-    store.commit('setNetworkError')
-  } else {
+  if (error.response) {
     if (store.state.error.network) {
       store.commit('setNetworkError', false)
-    }  
+    } else if (error.response.status === 401) {
+      console.log(401)
+    }
+  } else {
+    store.commit('setNetworkError')
   }
 
   throw error

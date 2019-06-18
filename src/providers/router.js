@@ -24,6 +24,18 @@ export default new Router({
       component: () => import('@/views/Login/index.vue')
     },
     {
+      path: '/users',
+      name: 'users',
+      component: () => import('@/views/Users/index.vue'),
+      children: [
+        {
+          path: 'create',
+          name: 'user create',
+          component: () => import('@/views/Users/Create.vue')
+        }
+      ]
+    },
+    {
       path: '*',
       name: 'not found',
       component: () => import('@/views/NotFound.vue')

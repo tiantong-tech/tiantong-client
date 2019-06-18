@@ -1,0 +1,19 @@
+.app-notifications
+  display: fixed
+  top: 0
+  left: 0
+  z-index: 10001
+  border-bottom: 1px solid $border
+  .box
+    padding: 1rem
+    z-index: -10000
+    width: 100vw
+    border-radius: 0
+    border-bottom: none
+    margin-bottom: 0
+    @each $name, $pair in $colors
+      $color: nth($pair, 1)
+      $color-invert: nth($pair, 2)
+      $color-lightning: max((100% - lightness($color)) - 4%, 0%)
+      &.is-#{$name}
+        background-color: lighten($color, $color-lightning)

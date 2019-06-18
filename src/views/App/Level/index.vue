@@ -1,26 +1,21 @@
 <template>
   <div id="level">
-    <nav class="level is-mobile">
+    <nav class="level is-mobile container">
       <div class="level-left">
-        <div id="logo" @click="handleLogoClick">
+        <router-link id="logo" to="/" tag="a">
           天瞳科技
-        </div>
+        </router-link>
+        <div style="width: 2rem"></div>
+        <LevelRouteItem
+          route="/users"
+          text="用户管理"
+        ></LevelRouteItem>
       </div>
       <div class="level-right">
-        <template v-if="!isAuthed">
-          <LevelRouteItem
-            route="/login"
-            text="用户登录"
-          ></LevelRouteItem>
-        </template>
-        <template v-else>
-          <p
-            class="level-item"
-            @click="handleLogout"
-          >
-            <a>退出登录</a>
-          </p>
-        </template>
+        <LevelRouteItem
+          route="/login"
+          :text="isAuthed ? '退出登录' : '用户登录'"
+        ></LevelRouteItem>
       </div>
     </nav>
   </div>
@@ -28,7 +23,6 @@
 
 <script>
 import store from '@/providers/store'
-import token from '@/providers/token'
 import LevelRouteItem from './LevelRouteItem'
 
 export default {
@@ -40,18 +34,6 @@ export default {
     isAuthed: () => store.state.isAuthed,
     currentRoute () {
       return this.$route.fullPath
-    }
-  },
-  methods: {
-    handleLogoClick () {
-      this.$router.push('/')
-    },
-    handleLogout () {
-      this.$confirm({
-        title: '退出登录',
-        content: '确认后退出当前账户',
-        handler: token.handleLogout
-      })
     }
   }
 }

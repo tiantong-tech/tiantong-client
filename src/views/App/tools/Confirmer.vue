@@ -72,6 +72,9 @@ export default {
         this.$emit('confirm')
       }
     },
+    close () {
+      this.handleClose()
+    },
     $open ({ title, content, handler, beforeClose }) {
       this.title = title
       this.content = content

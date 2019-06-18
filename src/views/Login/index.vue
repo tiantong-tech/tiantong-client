@@ -31,6 +31,13 @@
         </span>
       </div>
     </section>
+    <p
+      v-if="isFailed"
+      class="has-text-danger"
+      style="margin: -0.5rem 0 1rem"
+    >
+      登录失败，用户名或密码错误
+    </p>
     <a
       @click="handleSubmit"
       :class="isLoading && 'is-loading'"
@@ -38,13 +45,6 @@
     >
       登录 >>
     </a>
-    <p
-      v-if="isFailed"
-      class="has-text-danger"
-      style="margin: 1rem 0 -0.5rem"
-    >
-      登录失败，用户名或密码错误
-    </p>
   </div>
 </template>
 
@@ -74,6 +74,7 @@ export default {
         const token = response.data.token
 
         Token.handleAuth(token)
+        this.$router.push('/')
       }
       const handleError = () => {
         this.isFailed = true
@@ -85,6 +86,7 @@ export default {
       this.isLoading = true
       axios.post('/login/username', this.params)
         .then(handleThen)
+        .then(token => console.log(token))
         .catch(handleError)
         .finally(handleFinally)
     }
@@ -92,8 +94,8 @@ export default {
   created () {
     if (this.isAuthed) {
       this.$confirm({
-        title: '重新登录',
-        content: '当前用户已登录，确认将退出登录',
+        title: '退出登录',
+        content: '确认将退出当前账户',
         handler: () => Token.handleLogout(),
         beforeClose: () => this.$router.go(-1),
       })

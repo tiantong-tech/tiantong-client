@@ -1,14 +1,10 @@
 <template>
   <div id="app">
-    <Level v-if="isInitialized"></Level>
-    <div v-if="isInitialized">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/login">Login</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view v-if="isInitialized"/>
-    <Loader v-if="!isInitialized"></Loader>
-    <Confirmer></Confirmer>
+      <Level v-if="isInitialized"></Level>
+      <Notifications @hook:created="initialize('notifications')"></Notifications>
+      <router-view v-if="isInitialized"/>
+    <Loader v-else></Loader>
+    <Confirmer @hook:created="initialize('confirmer')"></Confirmer>
   </div>
 </template>
 
@@ -24,15 +20,30 @@ export default {
     Loader,
     Level: () => import('./Level/index.vue'),
     // Waiting: () => import('./tools/Waiting'),
-    Confirmer: () => import('./tools/Confirmer')
+    Confirmer: () => import('./tools/Confirmer'),
+    Notifications: () => import('./tools/Notifications')
   },
+  data: () => ({
+    initialized: {
+      token: false,
+      confirmer: false,
+      notifications: false
+    }
+  }),
   computed: {
     isInitialized: () => store.state.isInitialized
+  },
+  methods: {
+    initialize (key) {
+      this.initialized[key] = true
+      Object.values(this.initialized)
+        .every(value => value) && store.commit('setInitialized')
+    }
   },
   created () {
     token.handleAuth()
       // .then(() => sleep(1000))
-      .finally(() => store.commit('setInitialized'))
+      .finally(() => this.initialize('token'))
   }
 }
 </script>
