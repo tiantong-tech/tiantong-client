@@ -1,21 +1,21 @@
 <template>
   <div>
     <h1>This is Home Page</h1>
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <h1>groups: {{groups}}</h1>
   </div>
 </template>
 
 <script>
 import axios from '@/providers/axios'
-import HelloWorld from '@/components/HelloWorld.vue'
+import store from '@/providers/store'
 
 export default {
   name: 'Home',
-  components: {
-    HelloWorld
+  computed: {
+    groups: () => store.state.groups
   },
   created () {
-    axios.get('/')
+    axios.get('/api')
       .then(response => {
         console.log(response.data.message)
       })

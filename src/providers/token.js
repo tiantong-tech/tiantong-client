@@ -8,32 +8,46 @@ export default {
     return Storage.get('token')
   },
   set (token) {
-    console.log(Storage.set)
     Storage.set('token', token)
   },
-  async handle (token = '') {
+  /**
+   * 1. 若未传入 token 则从 storage 中读取
+   * 2. 若 token 不为空则执行 auth，否则 logout
+   * 3. 认证成功，得到 auth 数据，跳转至 /home
+   * 4. 认证失败，直接 logout
+   */
+  async handleAuth (token = '') {
     if (token) {
       this.set(token)
     } else {
       token = this.get()
     }
 
-    if (!token) {
-      Store.commit('setAuth', 'guest')
-    } else {
+    if (token) {
       const handleThen = ({ data }) => {
-        const { user, token } = data
+        const { user: { groups }, token } = data
 
         token && this.set(token)
-        Store.commit('setUser', user)
+        Store.commit('setGroups', groups)
+        Store.commit('setIsAuthed', true)
+        Router.push('/')
       }
 
       return getUserProfile()
         .then(handleThen)
+        .catch(this.handleLogout)
+    } else {
+      this.handleLogout()
     }
   },
-  handleForbidden () {
-    Store.commit('setUser', null)
+  /**
+   * 1. 清理 store.auth
+   * 2. 清理 storage.token
+   * 3. 跳转至 /login 路由
+   */
+  handleLogout () {
+    Store.commit('setIsAuthed', false)
+    Storage.remove('token')
     Router.push('/login')
   }
 }

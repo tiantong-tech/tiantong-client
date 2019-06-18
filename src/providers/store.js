@@ -5,21 +5,26 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
-    user: {},
+    isAuthed: false,
+    isInitialized: false,
+    groups: [],
     error: {
       network: false
     }
   },
   mutations: {
-    setUser (state, user = null) {
-      state.user = user
+    setGroups (state, groups = []) {
+      state.groups = groups
+    },
+    setIsAuthed (state, value) {
+      state.isAuthed = value
+    },
+    setInitialized (state, value = true) {
+      state.isInitialized = value
     },
     setNetworkError (state, error = true) {
       state.error.network = error
     }
-  },
-  actions: {
-
   }
 })
 

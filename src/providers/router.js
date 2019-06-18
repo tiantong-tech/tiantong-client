@@ -7,8 +7,11 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: () => import('@/views/Home.vue')
+      name: 'index',
+      meta: {
+        auth: { only: ['guest', ''] }
+      },
+      component: () => import('@/views/Home/index.vue')
     },
     {
       path: '/about',
@@ -19,6 +22,37 @@ export default new Router({
       path: '/login',
       name: 'login',
       component: () => import('@/views/Login/index.vue')
+    },
+    {
+      path: '*',
+      name: 'not found',
+      component: () => import('@/views/NotFound.vue')
     }
   ]
 })
+
+Router.prototype.isMatched = isMatched
+
+function isMatched ({ name, params }) {
+  const route = this.app.$route
+  const isMatched = route.matched.findIndex(
+    route => route.name === name
+  ) !== -1
+
+  if (!isMatched || !params) return isMatched
+
+  for (let key in params) {
+    if (
+      getValue(params[key]) !==
+      getValue(route.params[key])
+    ) {
+      return false
+    }
+  }
+
+  return true
+}
+
+function getValue (value) {
+  return typeof value === 'number' ? value.toString() : value
+}
