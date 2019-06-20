@@ -1,15 +1,16 @@
 <template>
   <div id="app">
-      <Level v-if="isInitialized"></Level>
-      <Notifications @hook:created="initialize('notifications')"></Notifications>
+    <Level v-if="isInitialized"></Level>
+    <Notifications @hook:created="initialize('notifications')"></Notifications>
+    <keep-alive>
       <router-view v-if="isInitialized"/>
-    <Loader v-else></Loader>
+      <Loader v-else></Loader>
+    </keep-alive>
     <Confirmer @hook:created="initialize('confirmer')"></Confirmer>
   </div>
 </template>
 
 <script>
-import token from '@/providers/token'
 import store from '@/providers/store'
 import Loader from '@/components/Loader'
 // import { sleep } from '@/utils/async'
@@ -25,25 +26,20 @@ export default {
   },
   data: () => ({
     initialized: {
-      token: false,
       confirmer: false,
       notifications: false
     }
   }),
   computed: {
-    isInitialized: () => store.state.isInitialized
+    isInitialized () {
+      return Object.values(this.initialized)
+        .every(val => val) && store.state.isTokenChecked
+    }
   },
   methods: {
     initialize (key) {
       this.initialized[key] = true
-      Object.values(this.initialized)
-        .every(value => value) && store.commit('setInitialized')
     }
-  },
-  created () {
-    token.handleAuth()
-      // .then(() => sleep(1000))
-      .finally(() => this.initialize('token'))
   }
 }
 </script>

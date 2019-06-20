@@ -22,7 +22,6 @@ export default {
     } else {
       token = this.get()
     }
-
     if (token) {
       const handleThen = ({ data }) => {
         const { user: { groups }, token } = data
@@ -30,18 +29,13 @@ export default {
         token && this.set(token)
         Store.commit('setGroups', groups)
         Store.commit('setIsAuthed', true)
-        // Router.push('/')
       }
-
-      await getUserProfile()
-        .then(handleThen)
+      await getUserProfile().then(handleThen)
 
       return true
-    } else {
-      this.handleLogout()
-
-      return false
     }
+
+    return false
   },
   /**
    * 1. 清理 store.auth

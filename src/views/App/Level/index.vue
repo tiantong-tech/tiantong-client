@@ -7,8 +7,14 @@
         </router-link>
         <div style="width: 2rem"></div>
         <LevelRouteItem
+          v-if="$groups('root', 'admin')"
           route="/users"
           text="用户管理"
+        ></LevelRouteItem>
+        <LevelRouteItem
+          v-if="$groups('root', 'admin', 'sale')"
+          route="/sale/tracks"
+          text="销售追踪"
         ></LevelRouteItem>
       </div>
       <div class="level-right">

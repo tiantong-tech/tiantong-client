@@ -6,7 +6,8 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   state: {
     isAuthed: false,
-    isInitialized: false,
+    isBooted: false,
+    isTokenChecked: false,
     groups: [],
     error: {
       network: false
@@ -19,8 +20,8 @@ const store = new Vuex.Store({
     setIsAuthed (state, value) {
       state.isAuthed = value
     },
-    setInitialized (state, value = true) {
-      state.isInitialized = value
+    setIsTokenChecked (state, value = true) {
+      state.isTokenChecked = value
     },
     setNetworkError (state, error = true) {
       state.error.network = error

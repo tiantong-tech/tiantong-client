@@ -1,46 +1,32 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import routes from '@/routes'
+import store from './store'
+import token from './token'
 
 Vue.use(Router)
 
-export default new Router({
-  routes: [
-    {
-      path: '/',
-      name: 'index',
-      meta: {
-        auth: { only: ['guest', ''] }
-      },
-      component: () => import('@/views/Home/index.vue')
-    },
-    {
-      path: '/about',
-      name: 'about',
-      component: () => import('@/views/About.vue')
-    },
-    {
-      path: '/login',
-      name: 'login',
-      component: () => import('@/views/Login/index.vue')
-    },
-    {
-      path: '/users',
-      name: 'users',
-      component: () => import('@/views/Users/index.vue'),
-      children: [
-        {
-          path: 'create',
-          name: 'user create',
-          component: () => import('@/views/Users/Create.vue')
-        }
-      ]
-    },
-    {
-      path: '*',
-      name: 'not found',
-      component: () => import('@/views/NotFound.vue')
-    }
-  ]
+const router = new Router({
+  routes
+})
+
+export default router
+
+/**
+ * 1. 首次进入路由,执行 token.handleAuth
+ * 2. 如果定义了 meta.groups, 则执行 groupCheck
+ */
+router.beforeEach(async (to, from, next) => {
+  if (!store.state.isTokenChecked) {
+    await token.handleAuth()
+      .finally(() => store.commit('setIsTokenChecked'))
+  }
+  if (!to.meta.groups || !to.meta.groups.length) {
+    next()
+  } else {
+    store.state.groups.some(group => to.meta.groups.includes(group))
+      && next()
+  }
 })
 
 Router.prototype.isMatched = isMatched
