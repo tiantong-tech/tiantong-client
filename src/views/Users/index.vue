@@ -137,10 +137,10 @@ export default {
       return this.dataSource.list.map(id => this.dataSource.data[id])
     },
     isAllSelected () {
-      return this.users.every(user => user.$selected)
+      return this.users.every(user => user.$selected) && this.users.length
     },
     isNoneSelected () {
-      return this.users.every(user => !user.$selected)
+      return !this.users.some(user => user.$selected)
     },
     selectedStatus () {
       if (this.isAllSelected) return true
