@@ -2,7 +2,7 @@
   <div class="container" style="margin-top: 2rem; width: 840px">
     <keep-alive>
       <router-view
-        @created="getDataSource"
+        @created="handleChangePage(1)"
       ></router-view>
     </keep-alive>
     <div
