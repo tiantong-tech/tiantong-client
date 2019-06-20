@@ -73,7 +73,9 @@ export default {
       const handleThen = response => {
         const token = response.data.token
 
-        Token.handleAuth(token)
+        return Token.handleAuth(token)
+      }
+      const handleLogged = () => {
         this.$router.push('/')
       }
       const handleError = () => {
@@ -86,7 +88,7 @@ export default {
       this.isLoading = true
       axios.post('/login/username', this.params)
         .then(handleThen)
-        .then(token => console.log(token))
+        .then(handleLogged)
         .catch(handleError)
         .finally(handleFinally)
     }
