@@ -15,14 +15,14 @@
             v-model="params.query"
             type="text" class="input"
             placeholder="Id / 用户名 / 邮箱"
-            @keypress.enter="getDataSource"
+            @keypress.enter="handleSearch"
           >
         </div>
         <div class="control">
           <a
             class="button is-info"
             :class="dataSource.isLoading && 'is-loading'"
-            @click="getDataSource"
+            @click="handleSearch"
           >
             <span class="icon">
               <i class="iconfont icon-search"></i>
@@ -177,6 +177,10 @@ export default {
         content: '确认将删除所有选中的用户',
         handler: () => axios.post('users/delete', { ids }).then(handleThen)
       })
+    },
+    handleSearch () {
+      this.params.page = 1
+      this.getDataSource()
     },
     getDataSource () {
       const dataSource = this.dataSource
