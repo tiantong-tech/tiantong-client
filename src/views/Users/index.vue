@@ -90,7 +90,7 @@
             <td>{{user.name}}</td>
             <td>{{user.username}}</td>
             <td>{{user.email}}</td>
-            <td>{{user.groups}}</td>
+            <CellGroups :value="user.groups"></CellGroups>
             <td>{{user.created_at.substr(0, 10)}}</td>
           </tr>
         </tbody>
@@ -102,17 +102,20 @@
         v-bind="dataSource"
         @change="handleChangePage"
       ></Pagination>
+    <div style="height: 1rem"></div>
   </div>
 </template>
 
 <script>
 import axios from '@/providers/axios'
 import Pagination from '@/components/Pagination'
+import CellGroups from './CellGroups'
 
 export default {
   name: 'users',
   components: {
-    Pagination
+    Pagination,
+    CellGroups
   },
   data: () => ({
     params: {
