@@ -35,7 +35,19 @@ export default [
     meta: {
       groups: ['root', 'admin', 'sale'],
     },
-    component: () => import('@/views/SaleTracks/index.vue')
+    component: () => import('@/views/SaleTracks/index.vue'),
+    children: [
+      {
+        path: ':id/data',
+        name: 'sale track detail',
+        component: () => import('@/views/SaleTracks/Detail.vue')
+      },
+      {
+        path: ':id/manage',
+        name: 'sale track manage',
+        component: () => import('@/views/SaleTracks/Manage.vue')
+      }
+    ]
   },
   {
     path: '*',

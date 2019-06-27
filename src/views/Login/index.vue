@@ -93,7 +93,7 @@ export default {
         .finally(handleFinally)
     }
   },
-  activated () {
+  created () {
     if (this.isAuthed) {
       this.$confirm({
         title: '退出登录',
