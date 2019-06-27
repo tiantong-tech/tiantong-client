@@ -2,10 +2,8 @@
   <div id="app">
     <Level v-if="isInitialized"></Level>
     <Notifications @hook:created="initialize('notifications')"></Notifications>
-    <keep-alive>
-      <router-view v-if="isInitialized"/>
-      <Loader v-else></Loader>
-    </keep-alive>
+    <router-view v-if="isInitialized"/>
+    <Loader v-else></Loader>
     <Confirmer @hook:created="initialize('confirmer')"></Confirmer>
   </div>
 </template>
