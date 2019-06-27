@@ -35,7 +35,7 @@ export default {
     },
     text: {
       type: String,
-      default: '个人信息已修改'
+      default: '数据已更新'
     }
   },
   methods: {
