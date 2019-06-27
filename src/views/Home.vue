@@ -29,10 +29,17 @@ export default {
   name: 'Home',
   beforeRouteEnter (to, from, next) {
     getApiStatus()
-    groupList.forEach(group => {
-      store.state.groups.includes(group) &&
-      next(groupRouteMap[group])
-    })
+    const handleAuthed = () => {
+      groupList.forEach(group => {
+        store.state.groups.includes(group) &&
+        next(groupRouteMap[group])
+      })
+    }
+    const handleUnauthed = () => {
+      next('/login')
+    }
+
+    store.state.isAuthed ? handleAuthed() : handleUnauthed()
   }
 }
 </script>
