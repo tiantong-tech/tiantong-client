@@ -13,7 +13,9 @@
         :style="iconStyle"
       />
     </span>
-    <slot></slot>
+    <span class="is-unselectable" style="cursor: pointer">
+      <slot></slot>
+    </span>
   </label>
 </template>
 
