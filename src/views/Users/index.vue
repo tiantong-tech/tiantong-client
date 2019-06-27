@@ -1,8 +1,8 @@
 <template>
-  <div class="container" style="margin-top: 2rem; width: 840px">
+  <div class="container" style="margin-top: 2rem; width: 1024px">
     <keep-alive>
       <router-view
-        @created="handleChangePage(1)"
+        @created="changePage(1)"
       ></router-view>
     </keep-alive>
     <div
@@ -12,17 +12,17 @@
       <div class="field has-addons">
         <div class="control">
           <input
-            v-model="params.query"
+            v-model="params.search"
+            @keypress.enter="refresh"
             type="text" class="input"
             placeholder="Id / 用户名 / 邮箱"
-            @keypress.enter="handleSearch"
           >
         </div>
         <div class="control">
           <a
             class="button is-info"
-            :class="dataSource.isLoading && 'is-loading'"
-            @click="handleSearch"
+            :class="isLoading && 'is-loading'"
+            @click="search"
           >
             <span class="icon">
               <i class="iconfont icon-search"></i>
@@ -56,13 +56,13 @@
     </div>
     <div>
       <table
-        v-if="!dataSource.isLoading"
+        v-if="!isLoading"
         class="table is-centered is-fullwidth is-nowrap"
       >
         <thead>
           <tr>
             <th
-              style="width: 1px; cursor: pointer"
+              class="is-checkbox"
               @click="handleSelectAll"
             >
               <Checkbox
@@ -78,9 +78,9 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="user in users" :key="user.id">
+          <tr v-for="user in items" :key="user.id">
             <td
-              style="cursor: pointer"
+              class="is-checkbox"
               @click="user.$selected = !user.$selected"
             >
               <Checkbox :value="user.$selected">
@@ -91,85 +91,46 @@
             <td>{{user.username}}</td>
             <td>{{user.email}}</td>
             <CellGroups :value="user.groups"></CellGroups>
-            <td>{{user.created_at.substr(0, 10)}}</td>
+            <td>
+              <TimeWrapper :value="user.created_at"></TimeWrapper>
+            </td>
           </tr>
         </tbody>
       </table>
     </div>
-    <div style="height: 1rem"></div>
-      <Pagination
-        v-if="!dataSource.isLoading"
-        v-bind="dataSource"
-        @change="handleChangePage"
-      ></Pagination>
-    <div style="height: 1rem"></div>
+    <Pagination
+      style="margin: 1rem 0 1rem"
+      v-if="!isLoading"
+      v-bind="meta"
+      @change="changePage"
+    ></Pagination>
   </div>
 </template>
 
 <script>
 import axios from '@/providers/axios'
+import dataSource from '@/mixins/dataSource'
 import Pagination from '@/components/Pagination'
+import TimeWrapper from '@/components/wrappers/Time'
 import CellGroups from './CellGroups'
 
 export default {
   name: 'users',
   components: {
     Pagination,
-    CellGroups
+    CellGroups,
+    TimeWrapper
   },
-  data: () => ({
-    params: {
-      page: 1,
-      page_size: 20,
-      query: ''
-    },
-    dataSource: {
-      page: 0,
-      total: 0,
-      page_size: 0,
-      list: [],
-      data: {},
-      isLoading: false
-    }
-  }),
-  computed: {
-    users () {
-      return this.dataSource.list.map(id => this.dataSource.data[id])
-    },
-    isAllSelected () {
-      return this.users.every(user => user.$selected) && this.users.length
-    },
-    isNoneSelected () {
-      return !this.users.some(user => user.$selected)
-    },
-    selectedStatus () {
-      if (this.isAllSelected) return true
-      else if (this.isNoneSelected) return false
-      else return 'minus'
-    },
-    selectedIds () {
-      return this.users.filter(user => user.$selected)
-        .map(user => user.id)
-    }
-  },
+  mixins: [ dataSource ],
   methods: {
-    handleSelectAll () {
-      const value = this.selectedStatus === true ? false : true
-
-      this.users.forEach(user => user.$selected = value)
-    },
-    handleChangePage (page) {
-      this.params.page = page
-      this.getDataSource()
-    },
     handleDelete () {
       const ids = this.selectedIds
       const handleThen = () => {
         this.$notify({
           type: 'success',
-          text: '用户已删除'
+          text: '信息已删除'
         })
-        this.getDataSource()
+        this.search()
       }
 
       this.$confirm({
@@ -177,46 +138,10 @@ export default {
         content: '确认将删除所有选中的用户',
         handler: () => axios.post('users/delete', { ids }).then(handleThen)
       })
-    },
-    handleSearch () {
-      this.params.page = 1
-      this.getDataSource()
-    },
-    getDataSource () {
-      const dataSource = this.dataSource
-      dataSource.list = []
-      dataSource.data = {}
-      dataSource.isLoading = false
-
-      const handleBefore = () => {
-        dataSource.isLoading = true
-      }
-      const handleThen = response => {
-        const { data, page, page_size, total } = response.data
-
-        dataSource.page = page
-        dataSource.total = total
-        dataSource.pageSize = page_size
-
-        data.forEach(item => {
-          item.$selected = false
-
-          dataSource.list.push(item.id)
-          this.$set(dataSource.data, item.id, item)
-        })
-      }
-      const handleFinally = () => {
-        dataSource.isLoading = false
-      }
-
-      handleBefore()
-      axios.post('/users/search', this.params)
-        .then(handleThen)
-        .finally(handleFinally)
     }
   },
   created () {
-    this.getDataSource()
+    this.initialize('/users/search')
   }
 }
 </script>
