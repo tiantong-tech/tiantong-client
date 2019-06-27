@@ -14,8 +14,8 @@
             <SelectableButtons
               v-model="params.status"
               :options="[
-                '确认中', '拜访中', '投标中',
-                '已投标', '已取消', '已归档',
+                '确认中', '已确认', '拜访中',
+                '投标中', '已投标', '已取消', '已归档',
               ]"
             ></SelectableButtons>
           </div>
