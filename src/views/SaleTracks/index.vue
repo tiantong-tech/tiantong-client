@@ -5,7 +5,7 @@
   >
     <keep-alive>
       <router-view
-        @close="$router.push('/sale/tracks/')"
+        @close="$router.push('/sale/tracks')"
         :item="item"
       ></router-view>
     </keep-alive>
