@@ -27,7 +27,7 @@
     >
       <h3>{{bound}}：</h3>
       <template v-for="side in ['长', '宽', '高']">
-        <label :key="side + 'a'">长</label>
+        <label :key="side + 'a'">{{side}}</label>
         <input
           :key="side + 'b'"
           v-model="$data['托盘尺寸'][bound][side]"
