@@ -27,7 +27,7 @@
 
 <script>
 import axios from '@/providers/axios'
-import Hoister from './types/Hoister'
+import Hoister from '@/share/product-params/Hoister'
 
 export default {
   name: 'DetailHoister',
