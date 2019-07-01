@@ -1,9 +1,5 @@
 import axios from '@/providers/axios'
 
-/**
- * 1. 调用 this.initialize(url)
- */
-
 const getData = () => ({
   url: '',
   list: [],
@@ -78,12 +74,14 @@ const methods = {
       .catch(handleCatch)
       .finally(handleFinally)
   },
-  initialize (url = '') {
+  initialize ({ url = '', params = {} }) {
     this.url = url
+    Object.keys(params).forEach(
+      key => this.$set(this.params, key, params[key])
+    )
     this.getDataSource()
   },
   refresh () {
-    Object.assign(this.$data, getData())
     this.getDataSource()
   },
   search () {

@@ -2,7 +2,7 @@
   <div class="container" style="margin-top: 2rem; width: 1024px">
     <keep-alive>
       <router-view
-        @created="changePage(1)"
+        @created="search"
       ></router-view>
     </keep-alive>
     <div
@@ -13,7 +13,7 @@
         <div class="control">
           <input
             v-model="params.search"
-            @keypress.enter="refresh"
+            @keypress.enter="search"
             type="text" class="input"
             placeholder="Id / 用户名 / 邮箱"
           >
@@ -141,7 +141,9 @@ export default {
     }
   },
   created () {
-    this.initialize('/users/search')
+    this.initialize({
+      url: '/users/search'
+    })
   }
 }
 </script>

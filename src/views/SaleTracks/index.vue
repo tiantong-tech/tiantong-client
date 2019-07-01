@@ -6,6 +6,7 @@
     <keep-alive>
       <router-view
         @close="$router.push('/sale/tracks')"
+        @updated="refresh"
         :item="item"
       ></router-view>
     </keep-alive>
@@ -14,6 +15,19 @@
       class="is-flex" style="height: 48px"
     >
       <div class="field has-addons">
+        <div class="control">
+          <div class="select">
+            <select v-model="params.status">
+              <option :value="undefined">全部</option>
+              <option
+                v-for="status in statuses" :key="status"
+                :value="status"
+              >
+                {{status}}
+              </option>
+            </select>
+          </div>
+        </div>
         <div class="control">
           <input
             v-model="params.search"
@@ -98,7 +112,6 @@
               <router-link :to="`/sale/tracks/${item.id}/manage`">
                 管理
               </router-link>
-              &nbsp;
               <router-link :to="`/sale/tracks/${item.id}/data`">
                 详细参数
               </router-link>
@@ -118,6 +131,7 @@
 
 <script>
 import axios from '@/providers/axios'
+import enums from '@/providers/enums'
 import dataSource from '@/mixins/dataSource'
 import Pagination from '@/components/Pagination'
 import TimeWrapper from '@/components/wrappers/Time'
@@ -136,7 +150,9 @@ export default {
 
   }),
   computed: {
-
+    statuses () {
+      return enums.saleTrackStatuses
+    }
   },
   methods: {
     handleDelete () {
@@ -157,7 +173,10 @@ export default {
     }
   },
   created () {
-    this.initialize('sale/tracks/search')
+    this.initialize({
+      url: 'sale/tracks/search',
+      params: { status: undefined }
+    })
   }
 }
 </script>

@@ -56,12 +56,12 @@ export default {
         data
       })
       .then(() => {
-        this.item.data = data
         this.$notify({
           type: 'success',
           text: '数据已更新'
         })
         this.close()
+        this.$emit('updated')
       })
       .finally(() => this.isLoading = false)
     }
