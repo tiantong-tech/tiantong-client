@@ -7,7 +7,7 @@
     </keep-alive>
     <div
       v-if="isNoneSelected"
-      class="is-flex" style="height: 48px"
+      class="is-flex"
     >
       <div class="field has-addons">
         <div class="control">
