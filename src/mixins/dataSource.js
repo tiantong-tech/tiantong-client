@@ -100,7 +100,7 @@ const methods = {
     this.data[id].$selected = !this.data[id].$selected
   },
   handleSelectAll () {
-    const value = this.selectedStatus === true ? false : true
+    const value = !this.selectedStatus
 
     this.items.forEach(item => item.$selected = value)
   }
