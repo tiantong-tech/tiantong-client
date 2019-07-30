@@ -1,5 +1,13 @@
 import axios from '@/providers/axios'
 
+/**
+ * 为没有 id 的数据自动分配一个 uuid
+ */
+const state = {
+  id: 0,
+  hasId: true
+}
+
 const getData = () => ({
   url: '',
   list: [],
@@ -55,8 +63,12 @@ const methods = {
       this.meta.page = page
       this.meta.pageSize = page_size
       this.meta.total = total
+      if (data[0] && !data[0].id) {
+        state.hasId = false
+      }
       data.forEach(item => {
         item.$selected = false
+        state.hasId || (item.id = state.id++)
         this.list.push(item.id)
         this.$set(this.data, item.id, item)
       })
@@ -74,8 +86,9 @@ const methods = {
       .catch(handleCatch)
       .finally(handleFinally)
   },
-  initialize ({ url = '', params = {} }) {
+  initialize ({ url = '', params = {}, hasId = true }) {
     this.url = url
+    state.hasId = hasId
     Object.keys(params).forEach(
       key => this.$set(this.params, key, params[key])
     )

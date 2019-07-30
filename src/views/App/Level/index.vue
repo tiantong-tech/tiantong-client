@@ -16,6 +16,11 @@
           route="/sale/tracks"
           text="销售追踪"
         ></LevelRouteItem>
+        <LevelRouteItem
+          v-if="$groups('root', 'admin', 'sale')"
+          route="/yuchuan/access/records"
+          text="网站监控"
+        ></LevelRouteItem>
       </div>
       <div class="level-right">
         <LevelRouteItem

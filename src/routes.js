@@ -50,6 +50,11 @@ export default [
     ]
   },
   {
+    path: '/yuchuan/access/records',
+    name: 'yuchuan access records',
+    component: () => import('@/views/AccessRecords/index.vue')
+  },
+  {
     path: '*',
     name: 'not found',
     component: () => import('@/views/NotFound.vue')
