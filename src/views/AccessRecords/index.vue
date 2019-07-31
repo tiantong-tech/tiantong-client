@@ -4,7 +4,7 @@
     style="margin-top: 2rem;"
   >
     <div class="is-flex">
-      <div style="width: 200px">
+      <div style="min-width: 180px; max-width: 180px">
         <aside class="menu">
           <p class="menu-label">
             选项

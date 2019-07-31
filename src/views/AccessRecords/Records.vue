@@ -6,8 +6,7 @@
     >
       <thead>
         <th>IP 地址</th>
-        <th>省份</th>
-        <th>城市</th>
+        <th>地区</th>
         <th>资源类型</th>
         <th>资源</th>
         <th>浏览时间</th>
@@ -15,8 +14,7 @@
       <tbody>
         <tr v-for="item in items" :key="item.id">
           <td>{{item.ip}}</td>
-          <td>{{item.province || '未知'}}</td>
-          <td>{{item.city || '未知'}}</td>
+          <Location :data="item"></Location>
           <td>网页</td>
           <td>{{item.resource}}</td>
           <td>
@@ -36,13 +34,13 @@
 
 <script>
 import dataSource from '@/mixins/dataSource'
-// import TimeWrapper from '@/components/wrappers/Time'
+import Location from './LocationWrapper'
 
 export default {
   name: 'Records',
   mixins: [ dataSource ],
   components: {
-    // TimeWrapper,
+    Location
   },
   created () {
     this.initialize({
