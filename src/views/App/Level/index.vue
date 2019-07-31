@@ -21,10 +21,16 @@
           route="/yuchuan/access/records"
           text="网站监控"
         ></LevelRouteItem>
+        <LevelRouteItem
+          v-if="$groups('root', 'admin', 'sale')"
+          route="/news"
+          text="新闻管理"
+        ></LevelRouteItem>
       </div>
       <div class="level-right">
         <LevelRouteItem
           route="/login"
+          :isActive="$route.fullPath.indexOf('/news') === 0"
           :text="isAuthed ? '退出登录' : '用户登录'"
         ></LevelRouteItem>
       </div>

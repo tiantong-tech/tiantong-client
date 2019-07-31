@@ -50,6 +50,22 @@ export default [
     ]
   },
   {
+    path: '/news',
+    name: 'news',
+    component: () => import('@/views/News/index.vue')
+  },
+  {
+    path: '/news/create',
+    name: 'news create',
+    component: () => import('@/views/News/Create.vue')
+  },
+  {
+    path: '/news/:id',
+    name: 'news detail',
+    props: true,
+    component: () => import('@/views/News/Detail.vue')
+  },
+  {
     path: '/yuchuan/access/records',
     name: 'yuchuan access records',
     component: () => import('@/views/AccessRecords/index.vue')

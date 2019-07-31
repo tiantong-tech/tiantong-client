@@ -1,6 +1,8 @@
 <template>
-  <div>
-    NotFound
+  <div class="container">
+    <div class="content is-medium">
+
+    </div>
   </div>
 </template>
 
