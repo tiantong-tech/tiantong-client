@@ -12,8 +12,8 @@
           <ul class="menu-list">
             <li v-for="(tab, key) in tabs" :key="key">
               <a
+                v-active="currentTab === key"
                 @click="currentTab = key"
-                :class="currentTab === key && 'is-active'"
               >
                 {{tab.text}}
               </a>

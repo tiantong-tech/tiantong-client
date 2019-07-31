@@ -1,5 +1,5 @@
 <template>
-  <div :class="['modal', isShow && 'is-active']">
+  <div v-active="isShow" class="modal">
     <div class="modal-background" @click="handleClose"/>
     <div class="modal-card" style="width: 320px">
       <header class="modal-card-head">
