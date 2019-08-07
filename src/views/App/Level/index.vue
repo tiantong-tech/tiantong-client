@@ -30,7 +30,6 @@
       <div class="level-right">
         <LevelRouteItem
           route="/login"
-          :isActive="$route.fullPath.indexOf('/news') === 0"
           :text="isAuthed ? '退出登录' : '用户登录'"
         ></LevelRouteItem>
       </div>
