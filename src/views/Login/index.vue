@@ -49,6 +49,7 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import Token from '@/providers/token'
 import axios from '@/providers/axios'
 import store from '@/providers/store'
@@ -93,14 +94,15 @@ export default {
         .finally(handleFinally)
     }
   },
-  created () {
-    if (this.isAuthed) {
-      this.$confirm({
-        title: '退出登录',
+  beforeRouteEnter (to, from, next) {
+    if (store.state.isAuthed) {
+      Vue.prototype.$confirm({
+        title: '退出登陆',
         content: '确认将退出当前账户',
-        handler: () => Token.handleLogout(),
-        beforeClose: () => this.$router.go(-1),
+        handler: () => (Token.handleLogout(), next())
       })
+    } else {
+      next()
     }
   }
 }

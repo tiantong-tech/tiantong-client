@@ -45,7 +45,6 @@ export default {
   handleLogout () {
     Store.commit('setIsAuthed', false)
     Storage.remove('token')
-    Router.push('/login')
   }
 }
 
