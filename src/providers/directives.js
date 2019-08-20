@@ -5,7 +5,6 @@ function active (el, binding) {
 }
 
 function klass (el, binding) {
-  console.log(binding)
   if (binding.arg) {
     binding.value
       ? el.classList.add(binding.arg)
