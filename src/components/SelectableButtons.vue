@@ -1,15 +1,15 @@
 <template>
   <section class="field has-addons">
     <p
-      v-for="option in options" :key="option"
+      v-for="option in options" :key="getOptionValue(option)"
       class="control"
     >
       <a
         class="button"
-        @click="$emit('input', option)"
-        :class="value === option && 'is-focused'"
+        @click="$emit('input', getOptionValue(option))"
+        v-class:is-focused="value === getOptionValue(option)"
       >
-        <span>{{option}}</span>
+        <span>{{getOptionText(option)}}</span>
       </a>
     </p>
   </section>
@@ -19,8 +19,20 @@
 export default {
   name: 'SelectableButtons',
   props: {
-    value: String,
+    value: [String, Number, Boolean],
     options: Array
+  },
+  methods: {
+    getOptionValue (option) {
+      return typeof option === 'object'
+        ? option.value
+        : option
+    },
+    getOptionText (option) {
+      return typeof option === 'object'
+        ? option.text
+        : option
+    }
   }
 }
 </script>
