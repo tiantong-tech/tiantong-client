@@ -1,5 +1,4 @@
 import Store from './store'
-import Router from './router'
 import Storage from 'store'
 import axios from './axios';
 

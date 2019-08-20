@@ -67,16 +67,6 @@ export default {
         },
         contentChanged () {
           vm.$emit('input', this.html.get())
-        },
-        'paste.before': function (e) {
-          // Do something here.
-          // this is the editor instance.
-          console.log(
-            e.clipboardData.getData('text')
-          )
-          const data = e.clipboardData.getData('text')
-
-          return false
         }
       }
     })
