@@ -74,7 +74,7 @@ const methods = {
       })
     }
     const handleCatch = error => {
-      console.log(error)
+      throw error
     }
     const handleFinally = () => {
       this.isLoading = false
