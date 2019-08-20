@@ -1,6 +1,6 @@
 <template>
   <component :is="tag">
-    {{value.substr(0, 10)}}
+    {{value ? value.substr(0, 10) : $props.default}}
   </component>
 </template>
 
@@ -11,6 +11,9 @@ export default {
     tag: {
       type: String,
       default: 'span'
+    },
+    default: {
+      default: '无'
     },
     value: String
   }
