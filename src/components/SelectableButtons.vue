@@ -6,6 +6,7 @@
     >
       <a
         class="button"
+        v-style:width="width"
         @click="$emit('input', getOptionValue(option))"
         v-class:is-focused="value === getOptionValue(option)"
       >
@@ -20,7 +21,11 @@ export default {
   name: 'SelectableButtons',
   props: {
     value: [String, Number, Boolean],
-    options: Array
+    options: Array,
+    width: {
+      type: String,
+      default: 'auto'
+    }
   },
   methods: {
     getOptionValue (option) {

@@ -18,6 +18,11 @@
         ></LevelRouteItem>
         <LevelRouteItem
           v-if="$groups('root', 'admin', 'sale')"
+          route="/sale/projects"
+          text="销售项目"
+        ></LevelRouteItem>
+        <LevelRouteItem
+          v-if="$groups('root', 'admin', 'sale')"
           route="/yuchuan/access/records"
           text="网站监控"
         ></LevelRouteItem>

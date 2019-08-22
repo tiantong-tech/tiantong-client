@@ -50,6 +50,83 @@ export default [
     ]
   },
   {
+    path: '/sale/projects',
+    name: 'sale projects',
+    component: () => import('@/views/SaleProjects/ProjectList.vue'),
+    meta: {
+      groups: ['root', 'admin', 'sale']
+    },
+    children: [
+      {
+        path: 'create',
+        name: 'sale project create',
+        component: () => import('@/views/SaleProjects/ProjectCreate.vue')
+      }
+    ]
+  },
+  {
+    path: '/sale/projects/:project_id',
+    name: 'sale project detail',
+    props: true,
+    meta: {
+      groups: ['root', 'admin', 'sale']
+    },
+    component: () => import('@/views/SaleProjects/Project.vue'),
+    children: [
+      {
+        path: 'description',
+        alias: '',
+        name: 'project description',
+        component: () => import('@/views/SaleProjects/ProjectDescription.vue')
+      },
+      {
+        path: 'activities',
+        name: 'project activities',
+        component: () => import('@/views/SaleProjects/ProjectActivities.vue')
+      },
+      {
+        path: 'files',
+        name: 'project files',
+        component: () => import('@/views/SaleProjects/ProjectFiles.vue')
+      },
+      {
+        path: 'settings',
+        name: 'project settings',
+        component: () => import('@/views/SaleProjects/ProjectSettings.vue')
+      },
+      {
+        path: 'schemas/create',
+        name: 'design schema create',
+        component: () => import('@/views/SaleProjects/SchemaCreate.vue')
+      },
+      {
+        path: 'schemas/:schema_id',
+        name: 'design schema',
+        component: () => import('@/views/SaleProjects/Schema.vue')
+      },
+      {
+        path: 'schemas/:schema_id/drawings/create',
+        name: 'cad drawing create',
+        component: () => import('@/views/SaleProjects/CadDrawingCreate.vue')
+      },
+      {
+        path: 'schemas/:schema_id/drawing',
+        name: 'cad drawing',
+        component: () => import('@/views/SaleProjects/CadDrawing.vue')
+      },
+      {
+        path: 'schemas/:schema_id/quotations/create',
+        name: 'quotation create',
+        component: () => import('@/views/SaleProjects/QuotationCreate.vue')
+      },
+      {
+        path: 'schemas/:schema_id/quotations/:quotation_id',
+        name: 'quotation detail',
+        component: () => import('@/views/SaleProjects/Quotation.vue')
+      }
+    ]
+  },
+  {
     path: '/news',
     name: 'news',
     component: () => import('@/views/News/index.vue')

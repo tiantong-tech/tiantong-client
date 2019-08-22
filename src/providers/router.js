@@ -7,7 +7,8 @@ import token from './token'
 Vue.use(Router)
 
 const router = new Router({
-  routes
+  routes,
+  linkExactActiveClass: 'is-active'
 })
 
 export default router

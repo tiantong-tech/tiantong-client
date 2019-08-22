@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" v-if="isDataLoaded">
     <Level v-if="isInitialized"></Level>
     <Notifications @hook:created="initialize('notifications')"></Notifications>
     <router-view v-if="isInitialized"/>
@@ -12,6 +12,7 @@
 import store from '@/providers/store'
 import Loader from '@/components/Loader'
 // import { sleep } from '@/utils/async'
+import users from '@/providers/users'
 
 export default {
   name: 'App',
@@ -32,12 +33,18 @@ export default {
     isInitialized () {
       return Object.values(this.initialized)
         .every(val => val) && store.state.isTokenChecked
+    },
+    isDataLoaded () {
+      return users.state.isLoaded
     }
   },
   methods: {
     initialize (key) {
       this.initialized[key] = true
     }
+  },
+  created () {
+    users.get()
   }
 }
 </script>
