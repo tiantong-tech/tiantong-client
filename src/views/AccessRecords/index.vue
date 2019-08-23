@@ -34,6 +34,7 @@
 import IPs from './IPs'
 import Records from './Records'
 import Devices from './Devices'
+import DeviceClear from './DeviceClear'
 
 export default {
   name: 'YuchuanAccessRecords',
@@ -46,6 +47,7 @@ export default {
       { text: '设备', component: Devices },
       { text: 'IP 地址', component: IPs },
       { text: '浏览记录', component: Records },
+      { text: '操作', component: DeviceClear },
     ]
   })
 }

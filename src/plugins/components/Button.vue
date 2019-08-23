@@ -2,7 +2,8 @@
   <component
     :is="tag"
     class="button"
-    :class="isLoading && 'is-loading'"
+    v-bind="$attrs"
+    v-class:is-loading="isLoading"
     v-on="$listeners"
   >
     <slot></slot>

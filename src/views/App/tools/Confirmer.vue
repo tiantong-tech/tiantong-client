@@ -1,7 +1,11 @@
 <template>
   <div v-active="isShow" class="modal">
     <div class="modal-background" @click="handleClose"/>
-    <div class="modal-card" style="width: 320px">
+    <div
+      class="modal-card"
+      v-style:width="width"
+      style="min-width: 320px"
+    >
       <header class="modal-card-head">
         <p class="modal-card-title">
           {{title}}
@@ -36,6 +40,7 @@ export default {
   },
   data () {
     return {
+      width: '',
       isShow: false,
       isLoading: false,
 
@@ -69,14 +74,22 @@ export default {
           this.isLoading = false
         }
       } else {
+        this.close()
         this.$emit('confirm')
       }
     },
     close () {
       this.handleClose()
     },
-    $open ({ title, content, handler, beforeClose }) {
+    $open ({
+      title,
+      content,
+      handler,
+      beforeClose,
+      width = 'auto'
+    }) {
       this.title = title
+      this.width = width
       this.content = content
       this.handler = handler
       this.beforeClose = beforeClose
