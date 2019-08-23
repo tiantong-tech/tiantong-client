@@ -5,90 +5,45 @@
   >
     <div style="height: 1.5rem"></div>
     <div class="columns">
-      <div class="column is-narrow">
-        <aside
-          class="menu is-unselectable"
-          style="width: 220px"
-        >
-          <p class="menu-label">
-            项目信息
-          </p>
-          <ul class="menu-list">
-            <li
-              v-for="menu in menus"
-              :key="menu.route"
-              v-class:has-text-danger="true"
-            >
-              <router-link :to="baseUrl + menu.path">
-                {{menu.text}}
-              </router-link>
-            </li>
-          </ul>
-          <p class="menu-label is-flex">
-            <span>设计依赖书</span>
-            <span class="is-flex-auto"></span>
-            <!-- <a>添加</a> -->
-          </p>
-          <ul class="menu-list">
-            <li v-for="schema in schemas" :key="schema.id">
-              <router-link :to="baseUrl + `schemas/${schema.id}`">
-                {{schema.name || `设计依赖书 ${schema.id}`}}
-              </router-link>
-              <ul v-if="schema.is_completed">
-                <router-link
-                  id="sale-project-menu-add"
-                  v-if="!schema.cad_drawing"
-                  :to="`${baseUrl}schemas/${schema.id}/drawings/create`"
-                >
-                  申请设计图
-                </router-link>
-                <router-link
-                  v-else
-                  :to="`${baseUrl}schemas/${schema.id}/drawing`"
-                >
-                  设计图
-                </router-link>
-                <router-link
-                  v-if="!schema.quotation_ids.length"
-                  id="sale-project-menu-add"
-                  :to="`${baseUrl}schemas/${schema.id}/quotations/create`"
-                >
-                  申请报价
-                </router-link>
-                <template v-else>
-                  <router-link
-                    v-for="id in schema.quotation_ids" :key="id"
-                    :to="`${baseUrl}schemas/${schema.id}/quotations/${id}`"
-                  >
-                    {{getQuotationTypeText(quotationData[id].type)}}
-                  </router-link>
-                </template>
-              </ul>
-            </li>
-            <li>
-              <router-link
-                id="sale-project-menu-add"
-                :to="baseUrl + 'schemas/create'"
-              >
-                + 设计依赖书
-              </router-link>
-            </li>
-          </ul>
-        </aside>
+      <div
+        class="column is-narrow is-hidden-touch"
+        style="width: 220px"
+      >
+        <ProjectMenu
+          :project="project" :schema_id="schema_id"
+        ></ProjectMenu>
       </div>
       <div class="column">
-        <nav class="breadcrumb is-medium">
-          <ul>
-            <li>
-              <router-link to="/sale/projects">销售项目</router-link>
-            </li>
-            <li class="is-active">
-              <a>
-                {{project.name || '项目详情'}}
-              </a>
-            </li>
-          </ul>
-        </nav>
+        <div class="is-flex is-vcentered">
+          <nav class="breadcrumb is-medium" style="margin-bottom: 0">
+            <ul>
+              <li>
+                <router-link to="/sale/projects">销售项目</router-link>
+              </li>
+              <li class="is-active">
+                <a>
+                  {{project.name || '项目详情'}}
+                </a>
+              </li>
+            </ul>
+          </nav>
+          <div class="is-flex-auto"></div>
+          <div>
+            <a
+              class="nav-menu icon is-medium is-hidden-desktop"
+              @click="isMenuActive = !isMenuActive"
+            >
+              <i class="iconfont icon-menu"></i>
+            </a>
+          </div>
+        </div>
+        <div style="height: 0.75rem"></div>
+        <ProjectMenu
+          v-show="isMenuActive"
+          class="is-hidden-desktop"
+          style="margin-bottom: 1rem"
+          :project="project" :schema_id="schema_id"
+        ></ProjectMenu>
         <router-view
           :project="project"
           :key="project_id + '' + schema_id + '' + quotation_id"
@@ -104,10 +59,13 @@
 
 <script>
 import axios from '@/providers/axios'
-import { getQuotationTypeText } from './components/quotation.js'
+import ProjectMenu from './components/ProjectMenu'
 
 export default {
   name: 'SaleProject',
+  components: {
+    ProjectMenu
+  },
   props: {
     schema_id: {},
     project_id: {},
@@ -116,19 +74,11 @@ export default {
   data: () => ({
     project: false,
     isLoading: false,
-    menus: [
-      { path: '', text: '基本信息', dev: true },
-      { path: 'activities', text: '活动', dev: true },
-      { path: 'files', text: '文件', dev: true },
-      { path: 'settings', text: '设置', dev: true },
-    ]
+    isMenuActive: false,
   }),
   computed: {
     baseUrl () {
       return `/sale/projects/${this.project_id}/`
-    },
-    schema () {
-      return this.schemaData[this.schema_id]
     },
     schemaData () {
       const data = {}
@@ -139,20 +89,8 @@ export default {
 
       return data
     },
-    schemas () {
-      return this.project.design_schema_ids.map(id => this.schemaData[id])
-    },
-    quotationData () {
-      const data = {}
-      this.schemas.forEach(schema => {
-        schema.quotations.forEach(item => data[item.id] = item)
-      })
-
-      return data
-    }
   },
   methods: {
-    getQuotationTypeText,
     getDataSource () {
       return axios.post('/projects/detail', { project_id: this.project_id})
         .then(response => this.project = response.data)
