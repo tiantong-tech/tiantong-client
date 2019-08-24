@@ -36,3 +36,19 @@ export function upload (file) {
     }
   }
 }
+
+export function uploadByToken (file, token) {
+  return {
+    subscribe (observer) {
+      const key = null
+
+      qiniu.upload(file, key, token, putExtra, config)
+        .subscribe(observer)
+    }
+  }
+}
+
+export default {
+  upload,
+  uploadByToken
+}
