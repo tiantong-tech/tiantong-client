@@ -1,0 +1,19 @@
+@import '~bulma/sass/components/dropdown'
+
+.dropdown-menu
+  min-width: calc(100%)
+  &.is-active
+    display: block
+  &.is-right
+    left: auto
+    right: 0
+  &.is-up
+    bottom: 100%
+    padding-bottom: $dropdown-content-offset
+    padding-top: initial
+    top: auto
+  .dropdown-item
+    font-size: 1rem
+    padding-right: 1rem
+    // &.is-active
+    //   border-left: 2px solid $info

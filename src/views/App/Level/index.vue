@@ -34,9 +34,15 @@
       </div>
       <div class="level-right">
         <LevelRouteItem
+          v-if="!isAuthed"
           route="/login"
-          :text="isAuthed ? '退出登录' : '用户登录'"
+          text="用户登录"
         ></LevelRouteItem>
+        <LevelProfileItem v-else>
+          <router-link class="dropdown-item" to="/login">
+            退出登陆
+          </router-link>
+        </LevelProfileItem>
       </div>
     </nav>
   </div>
@@ -45,11 +51,13 @@
 <script>
 import store from '@/providers/store'
 import LevelRouteItem from './LevelRouteItem'
+import LevelProfileItem from './LevelProfileItem'
 
 export default {
   name: 'Level',
   components: {
-    LevelRouteItem
+    LevelRouteItem,
+    LevelProfileItem
   },
   computed: {
     isAuthed: () => store.state.isAuthed,

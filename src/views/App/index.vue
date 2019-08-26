@@ -30,12 +30,15 @@ export default {
     }
   }),
   computed: {
+    isAuthed () {
+      return store.state.isAuthed
+    },
     isInitialized () {
       return Object.values(this.initialized)
         .every(val => val) && store.state.isTokenChecked
     },
     isDataLoaded () {
-      return users.state.isLoaded
+      return true
     }
   },
   methods: {
@@ -43,8 +46,15 @@ export default {
       this.initialized[key] = true
     }
   },
-  created () {
-    users.get()
+  watch: {
+    isAuthed: {
+      immediate: true,
+      handler (val) {
+        if (val) {
+          users.get()
+        }
+      }
+    }
   }
 }
 </script>
