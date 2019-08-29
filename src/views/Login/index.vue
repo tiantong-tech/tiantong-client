@@ -52,7 +52,6 @@
 import Vue from 'vue'
 import Token from '@/providers/token'
 import axios from '@/providers/axios'
-import store from '@/providers/store'
 
 export default {
   name: 'Login',
@@ -67,17 +66,15 @@ export default {
     }
   },
   computed: {
-    isAuthed: () => store.state.isAuthed
+    isAuthed: () => Token.state.isAuthed
   },
   methods: {
     handleSubmit () {
       const handleThen = response => {
-        const token = response.data.token
+        Token.set(response.data.token)
 
-        return Token.handleAuth(token)
-      }
-      const handleLogged = () => {
-        this.$router.push('/')
+        Token.getProfile()
+          .then(() => this.$router.push('/').catch(() => {}))
       }
       const handleError = () => {
         this.isFailed = true
@@ -89,17 +86,19 @@ export default {
       this.isLoading = true
       axios.post('/login/username', this.params)
         .then(handleThen)
-        .then(handleLogged)
         .catch(handleError)
         .finally(handleFinally)
     }
   },
   beforeRouteEnter (to, from, next) {
-    if (store.state.isAuthed) {
+    if (Token.state.isAuthed) {
       Vue.prototype.$confirm({
         title: '退出登陆',
         content: '确认将退出当前账户',
-        handler: () => (Token.handleLogout(), next())
+        handler: () => {
+          Token.remove()
+          next()
+        }
       })
     } else {
       next()

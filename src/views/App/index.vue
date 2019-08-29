@@ -1,18 +1,16 @@
 <template>
-  <div id="app" v-if="isDataLoaded">
-    <Level v-if="isInitialized"></Level>
-    <Notifications @hook:created="initialize('notifications')"></Notifications>
-    <router-view v-if="isInitialized"/>
-    <Loader v-else></Loader>
-    <Confirmer @hook:created="initialize('confirmer')"></Confirmer>
+  <div id="app" v-if="isLoaded">
+    <Level v-if="isMounted"></Level>
+    <Notifications @hook:created="mounted.notifications = true"></Notifications>
+    <router-view v-if="isMounted"></router-view>
+    <Confirmer @hook:created="mounted.confirmer = true"></Confirmer>
   </div>
+  <Loader v-else></Loader>
 </template>
 
 <script>
-import store from '@/providers/store'
+import Token from '@/providers/token'
 import Loader from '@/components/Loader'
-// import { sleep } from '@/utils/async'
-import users from '@/providers/users'
 
 export default {
   name: 'App',
@@ -24,36 +22,17 @@ export default {
     Notifications: () => import('./tools/Notifications')
   },
   data: () => ({
-    initialized: {
+    mounted: {
       confirmer: false,
       notifications: false
     }
   }),
   computed: {
-    isAuthed () {
-      return store.state.isAuthed
+    isLoaded () {
+      return Token.state.isLoaded
     },
-    isInitialized () {
-      return Object.values(this.initialized)
-        .every(val => val) && store.state.isTokenChecked
-    },
-    isDataLoaded () {
-      return true
-    }
-  },
-  methods: {
-    initialize (key) {
-      this.initialized[key] = true
-    }
-  },
-  watch: {
-    isAuthed: {
-      immediate: true,
-      handler (val) {
-        if (val) {
-          users.get()
-        }
-      }
+    isMounted () {
+      return Object.values(this.mounted).every(val => val)
     }
   }
 }

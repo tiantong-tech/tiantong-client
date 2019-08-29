@@ -5,7 +5,8 @@ import Token from './token'
 axios.defaults.baseURL = process.env.VUE_APP_API_URL_BASE
 
 function beforeRequest (config) {
-  const token = Token.get();
+  const token = Token.state.token
+
   if (token) {
     config.headers.Authorization = token
   }

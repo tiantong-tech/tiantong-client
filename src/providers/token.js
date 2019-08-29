@@ -1,52 +1,55 @@
-import Store from './store'
+import Vue from 'vue'
 import Storage from 'store'
-import axios from './axios';
+import axios from './axios'
+import flatten from 'lodash/flatten'
+
+const state = Vue.observable({
+  token: '',
+  groups: [],
+  isAuthed: false,
+  isLoaded: false,
+})
 
 export default {
-  get () {
-    return Storage.get('token')
+  state,
+  load () {
+    const token = Storage.get('token')
+
+    if (token) {
+      this.state.token = token
+    }
+    this.state.isLoaded = true
+
+    return Boolean(token)
   },
   set (token) {
     Storage.set('token', token)
+    this.state.token = token
+    this.state.isLoaded = true
   },
-  /**
-   * 1. 若未传入 token 则从 storage 中读取
-   * 2. 若 token 不为空则执行 auth，否则 logout
-   * 3. 认证成功，设置 auth、 数据
-   * 4. 认证失败，直接 logout
-   */
-  async handleAuth (token = '') {
-    if (token) {
-      this.set(token)
-    } else {
-      token = this.get()
-    }
-    if (token) {
-      const handleThen = ({ data }) => {
-        const { user: { groups }, token } = data
-
-        token && this.set(token)
-        Store.commit('setGroups', groups)
-        Store.commit('setIsAuthed', true)
-      }
-      await getUserProfile().then(handleThen)
-
-      return true
-    }
-
-    return false
-  },
-  /**
-   * 1. 清理 store.auth
-   * 2. 清理 storage.token
-   * 3. 跳转至 /login 路由
-   */
-  handleLogout () {
-    Store.commit('setIsAuthed', false)
+  remove () {
+    this.state.token = ''
+    this.state.isAuthed = false
     Storage.remove('token')
-  }
-}
+  },
+  getProfile () {
+    return axios.post('user/profile')
+      .then(response => {
+        const { user: { groups }, token } = response.data
 
-function getUserProfile () {
-  return axios.post('user/profile')
+        if (token) {
+          this.set(token)
+        }
+        this.state.isAuthed = true
+        this.state.groups = groups
+      })
+  },
+  checkGroups (...groups) {
+    groups = flatten(groups)
+
+    return state.isAuthed && (
+      !groups.length ||
+      groups.some(group => state.groups.includes(group))
+    )
+  },
 }

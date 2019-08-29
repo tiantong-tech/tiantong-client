@@ -1,6 +1,6 @@
 <template>
   <div id="level">
-    <nav class="level is-mobile container">
+    <nav class="level container is-mobile" style="padding: 0 1rem 0 1rem">
       <div class="level-left">
         <router-link id="logo" to="/" tag="a">
           天瞳科技
@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import store from '@/providers/store'
+import Token from '@/providers/token'
 import LevelRouteItem from './LevelRouteItem'
 import LevelProfileItem from './LevelProfileItem'
 
@@ -60,7 +60,7 @@ export default {
     LevelProfileItem
   },
   computed: {
-    isAuthed: () => store.state.isAuthed,
+    isAuthed: () => Token.state.isAuthed,
     currentRoute () {
       return this.$route.fullPath
     }

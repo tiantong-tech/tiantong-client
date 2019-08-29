@@ -8,38 +8,40 @@
 
 <script>
 import axios from '@/providers/axios'
-import store from '@/providers/store'
+import Token from '@/providers/token'
 
-const groupList = ['root', 'admin', 'sale']
 
-const groupRouteMap = {
-  root: '/users',
-  admin: '/users',
-  sale: '/sale/tracks'
-}
-
-function getApiStatus () {
-  axios.get('/api')
-    .then(response => {
-      console.log(response.data.message)
-    })
-}
+const groupPath = [
+  ['root', '/users'],
+  ['admin', '/users'],
+  ['sale', '/sale/tracks']
+]
 
 export default {
   name: 'Home',
-  beforeRouteEnter (to, from, next) {
-    getApiStatus()
-    const handleAuthed = () => {
-      groupList.forEach(group => {
-        store.state.groups.includes(group) &&
-        next(groupRouteMap[group])
+  created () {
+    // 获取 api 信息
+    axios.get('/api')
+      .then(response => {
+        console.log(response.data.message)
       })
+  },
+  beforeRouteEnter (to, from, next) {
+    const handleAuthed = () => {
+      for (let key in groupPath) {
+        const [ group, path ] = groupPath[key]
+        if (Token.state.groups.includes(group)) {
+          next(path)
+
+          return
+        }
+      }
     }
     const handleUnauthed = () => {
       next('/login')
     }
 
-    store.state.isAuthed ? handleAuthed() : handleUnauthed()
+    Token.state.isAuthed ? handleAuthed() : handleUnauthed()
   }
 }
 </script>

@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import Token from './token'
 import routes from '@/routes'
-import store from './store'
-import token from './token'
+import get from 'lodash/get'
 
 Vue.use(Router)
 
@@ -13,21 +13,46 @@ const router = new Router({
 
 export default router
 
-/**
- * 1. 首次进入路由,执行 token.handleAuth
- * 2. 如果定义了 meta.groups, 则执行 groupCheck
- */
 router.beforeEach(async (to, from, next) => {
-  if (!store.state.isTokenChecked) {
-    await token.handleAuth()
-      .finally(() => store.commit('setIsTokenChecked'))
+  let path = to.path
+
+  function handleNext () {
+    if (!path) {
+      // group error
+      return
+    } else if (to.path === path) {
+      next()
+    } else {
+      next(path)
+    }
   }
-  if (!to.meta.groups || !to.meta.groups.length) {
-    next()
-  } else {
-    store.state.groups.some(group => to.meta.groups.includes(group))
-      && next()
+  function expectLogin () {
+    Token.remove()
+    path = '/login'
   }
+  async function initToken () {
+    if (Token.state.isLoaded) {
+      return
+    }
+
+    if (Token.load()) {
+      return Token.getProfile()
+        .then(() => path = '/')
+        .catch(expectLogin)
+    } else {
+      path = '/login'
+    }
+  }
+  function checkMetaGroups () {
+    const groups = get(to, 'meta.groups', [])
+    if (!Token.checkGroups(groups)) {
+      path = false
+    }
+  }
+
+  await initToken()
+  checkMetaGroups()
+  handleNext()
 })
 
 Router.prototype.isMatched = isMatched

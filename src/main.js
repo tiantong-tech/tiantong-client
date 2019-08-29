@@ -4,15 +4,22 @@ import router from './providers/router'
 import store from './providers/store'
 import directives from './providers/directives'
 import components from './plugins/components'
-import prototype from './plugins/prototype'
+import Token from './providers/token'
 
 Vue.config.productionTip = false
 Vue.use(components)
-Vue.use(prototype)
 Vue.use(directives)
+Vue.prototype.$groups = Token.checkGroups
 
 new Vue({
   store,
   router,
   render: h => h(App)
 }).$mount('#app')
+
+// function getApiStatus () {
+//   axios.get('/api')
+//     .then(response => {
+//       console.log(response.data.message)
+//     })
+// }
