@@ -7,6 +7,7 @@
       class="icon is-medium"
       style="cursor: pointer"
       @click="isActive = !isActive"
+      v-class:has-text-dark="isActive"
       v-clickoutside="() => isActive = false"
     >
       <i class="iconfont icon-user"></i>
