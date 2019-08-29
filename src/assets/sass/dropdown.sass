@@ -1,5 +1,6 @@
 @import '~bulma/sass/components/dropdown'
 
+
 .dropdown-menu
   min-width: calc(100%)
   &.is-active
@@ -13,7 +14,11 @@
     padding-top: initial
     top: auto
   .dropdown-item
+    color: $text
     font-size: 1rem
     padding-right: 1rem
+    &.is-active
+      color: $link
+      background: $background
     // &.is-active
     //   border-left: 2px solid $info

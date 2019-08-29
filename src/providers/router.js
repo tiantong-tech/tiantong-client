@@ -37,13 +37,18 @@ router.beforeEach(async (to, from, next) => {
 
     if (Token.load()) {
       return Token.getProfile()
-        .then(() => path = '/')
         .catch(expectLogin)
     } else {
       path = '/login'
     }
   }
+  function checkTokenAuth() {
+    if (Token.state.isAuthed) return
+    path = '/login'
+  }
   function checkMetaGroups () {
+    if (!Token.state.isAuthed) return
+
     const groups = get(to, 'meta.groups', [])
     if (!Token.checkGroups(groups)) {
       path = false
@@ -51,6 +56,7 @@ router.beforeEach(async (to, from, next) => {
   }
 
   await initToken()
+  checkTokenAuth()
   checkMetaGroups()
   handleNext()
 })

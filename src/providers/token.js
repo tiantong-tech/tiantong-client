@@ -8,6 +8,13 @@ const state = Vue.observable({
   groups: [],
   isAuthed: false,
   isLoaded: false,
+  user: {
+    id: 0,
+    name: '',
+    email: '',
+    username: '',
+    phone_number: '',
+  }
 })
 
 export default {
@@ -35,13 +42,15 @@ export default {
   getProfile () {
     return axios.post('user/profile')
       .then(response => {
-        const { user: { groups }, token } = response.data
+        const { user, token } = response.data
 
         if (token) {
           this.set(token)
         }
+
+        this.state.user = user
+        this.state.groups = user.groups
         this.state.isAuthed = true
-        this.state.groups = groups
       })
   },
   checkGroups (...groups) {

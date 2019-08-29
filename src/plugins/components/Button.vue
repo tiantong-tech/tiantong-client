@@ -4,7 +4,8 @@
     class="button"
     v-bind="$attrs"
     v-class:is-loading="isLoading"
-    v-on="$listeners"
+    @click="!disabled && $emit('click')"
+    :disabled="disabled"
   >
     <slot></slot>
   </component>
@@ -19,6 +20,10 @@ export default {
       default: 'a'
     },
     isLoading: {
+      type: Boolean,
+      default: false
+    },
+    disabled: {
       type: Boolean,
       default: false
     }

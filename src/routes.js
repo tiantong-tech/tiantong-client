@@ -30,6 +30,11 @@ export default [
     ]
   },
   {
+    path: '/profile',
+    name: 'user profile',
+    component: () => import('@/views/Profile.vue')
+  },
+  {
     path: '/sale/tracks',
     name: 'sale tracks',
     meta: {

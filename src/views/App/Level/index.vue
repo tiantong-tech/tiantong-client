@@ -39,6 +39,9 @@
           text="用户登录"
         ></LevelRouteItem>
         <LevelProfileItem v-else>
+          <router-link class="dropdown-item" to="/profile">
+            用户信息
+          </router-link>
           <router-link class="dropdown-item" to="/login">
             退出登陆
           </router-link>

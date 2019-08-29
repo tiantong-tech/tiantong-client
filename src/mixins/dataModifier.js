@@ -16,6 +16,9 @@ export default function (params, dataSource) {
       },
       isChanged () {
         return !!Object.keys(this.changedParams).length
+      },
+      isModified () {
+        return !!Object.keys(this.changedParams).length
       }
     },
     created () {
