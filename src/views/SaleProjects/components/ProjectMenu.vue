@@ -75,6 +75,7 @@ export default {
   props: {
     project: {},
     schema_id: {},
+    quotationData: {},
   },
   data: () => ({
     menus: [
@@ -102,14 +103,6 @@ export default {
     },
     schemas () {
       return this.project.design_schema_ids.map(id => this.schemaData[id])
-    },
-    quotationData () {
-      const data = {}
-      this.schemas.forEach(schema => {
-        schema.quotations.forEach(item => data[item.id] = item)
-      })
-
-      return data
     }
   },
   methods: {

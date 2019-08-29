@@ -11,6 +11,7 @@
       >
         <ProjectMenu
           :project="project" :schema_id="schema_id"
+          :quotationData="quotationData"
         ></ProjectMenu>
       </div>
       <div class="column">
@@ -42,6 +43,7 @@
           v-show="isMenuActive"
           class="is-hidden-desktop"
           style="margin-bottom: 1rem"
+          :quotationData="quotationData"
           :project="project" :schema_id="schema_id"
         ></ProjectMenu>
         <router-view
@@ -85,6 +87,14 @@ export default {
 
       this.project.design_schemas.forEach(schema => {
         data[schema.id] = schema
+      })
+
+      return data
+    },
+    quotationData () {
+      const data = {}
+      this.project.design_schemas.forEach(schema => {
+        schema.quotations.forEach(item => data[item.id] = item)
       })
 
       return data
