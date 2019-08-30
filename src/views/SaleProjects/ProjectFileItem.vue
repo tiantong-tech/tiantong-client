@@ -8,11 +8,31 @@
     <td>
       {{index + 1}}
     </td>
-    <td>
+    <td v-if="!isRename">
       <div class="is-flex is-vcentered">
         <span>{{file.name}}</span>
         <span class="is-flex-auto"></span>
         <div class="field has-addons">
+          <div class="control">
+            <a
+              v-show="isHovered"
+              class="button is-outlined is-info"
+              style="font-size: 0.875rem"
+              @click.stop="handleDownload"
+            >
+              下载
+            </a>
+          </div>
+          <div class="control">
+            <a
+              v-show="isHovered"
+              class="button is-outlined is-info"
+              style="font-size: 0.875rem"
+              @click.stop="isRename = true"
+            >
+              重命名
+            </a>
+          </div>
           <div class="control">
             <a
               v-show="isHovered"
@@ -26,6 +46,12 @@
         </div>
       </div>
     </td>
+    <FileRename
+      v-else
+      :file="file"
+      @close="isRename = false, isHovered = false"
+      @renamed="file.name = $event"
+    ></FileRename>
     <td class="has-text-left">
       <FileSize :value="file.size"></FileSize>
     </td>
@@ -39,6 +65,7 @@
 
 <script>
 import axios from '@/providers/axios'
+import FileRename from './ProjectFileRename'
 import FileSize from '@/components/wrappers/FileSize'
 import TimeWrapper from '@/components/wrappers/Time'
 
@@ -46,18 +73,27 @@ export default {
   name: 'FileItem',
   components: {
     FileSize,
-    TimeWrapper
+    FileRename,
+    TimeWrapper,
   },
   data: () => ({
+    isRename: false,
     isHovered: false
   }),
   props: {
     file: {},
-    index: {}
+    index: {},
+    project: {}
   },
   methods: {
     handleRowClick () {
       window.open(`http://tiantong.als-yuchuan.com/${this.file.link}`)
+    },
+    handleDownload () {
+      let link = document.createElement('a');
+      link.download = this.file.name;
+      link.href = this.file.link;
+      link.click();
     },
     handleDelete () {
       const params = {

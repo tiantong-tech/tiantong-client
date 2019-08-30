@@ -28,13 +28,8 @@
 </template>
 
 <script>
-import clickoutside from '@/directives/clickoutside'
-
 export default {
   name: 'ProfileItem',
-  directives: {
-    clickoutside
-  },
   data: () => ({
     isActive: false
   })

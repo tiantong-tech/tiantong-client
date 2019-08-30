@@ -1,5 +1,6 @@
 <template>
   <div>
+    <router-view></router-view>
     <div class="is-flex is-vcentered">
       <p class="is-size-5 ">文件列表</p>
       <div class="is-flex-auto"></div>
@@ -33,7 +34,7 @@
         <th style="width: 1px">
           #
         </th>
-        <th style="text-align: left">文件名</th>
+        <th style="text-align: left">文件名 </th>
         <th style="width: 1px">文件大小</th>
         <th style="width: 100px">上传者</th>
         <th style="width: 160px">创建日期</th>
@@ -41,7 +42,7 @@
       <tbody>
         <ProjectFileItem
           v-for="(file, key) in files" :key="file.id"
-          :index="key" :file="file"
+          :index="key" :file="file" :project="project"
           @deleted="getFiles"
         ></ProjectFileItem>
       </tbody>

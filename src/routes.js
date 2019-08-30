@@ -92,7 +92,14 @@ export default [
       {
         path: 'files',
         name: 'project files',
-        component: () => import('@/views/SaleProjects/ProjectFiles.vue')
+        component: () => import('@/views/SaleProjects/ProjectFiles.vue'),
+        children: [
+          {
+            path: ':file_id/rename',
+            name: 'project file rename',
+            component: () => import('@/views/SaleProjects/ProjectFileRename.vue')
+          }
+        ]
       },
       {
         path: 'settings',

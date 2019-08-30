@@ -5,10 +5,12 @@ import store from './providers/store'
 import directives from './providers/directives'
 import components from './plugins/components'
 import Token from './providers/token'
+import clickoutside from './directives/clickoutside'
 
 Vue.config.productionTip = false
 Vue.use(components)
 Vue.use(directives)
+Vue.directive('clickoutside', clickoutside)
 Vue.prototype.$groups = Token.checkGroups
 
 new Vue({
