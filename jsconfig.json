@@ -1,11 +1,10 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
-    "target": "es6",
+    "baseUrl": "./",
     "paths": {
-      "@": ["src/"],
+      "@/*": ["src/*"],
     }
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "dist"],
+  "include": ["src/**/*"]
 }

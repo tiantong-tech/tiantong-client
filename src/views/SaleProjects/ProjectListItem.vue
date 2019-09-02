@@ -8,7 +8,7 @@
     <td>{{project.name || '无'}}</td>
     <td>{{project.company || '无'}}</td>
     <TimeWrapper
-      tag="td" :value="project.signatured_date"
+      tag="td" :value="project.signature_date"
     ></TimeWrapper>
     <TimeWrapper
       tag="td" :value="project.delivery_date"

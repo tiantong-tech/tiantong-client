@@ -35,20 +35,18 @@
 
     <div class="columns" style="margin-bottom: 0">
       <div class="column">
-        <div class="field">
-          <label class="label">签约日期</label>
-          <div class="control">
-            <input type="text" class="input">
-          </div>
-        </div>
+        <DateField
+          width="100%"
+          text="截止日期"
+          v-model="params.signature_date"
+        ></DateField>
       </div>
       <div class="column">
-        <div class="field">
-          <label class="label">交付日期</label>
-          <div class="control">
-            <input type="text" class="input">
-          </div>
-        </div>
+        <DateField
+          width="100%"
+          text="交付日期"
+          v-model="params.delivery_date"
+        ></DateField>
       </div>
     </div>
 
@@ -71,6 +69,7 @@ import MembersField from './components/MembersField'
 import SaleTypeField from './components/SaleTypeField'
 import ProgressField from './components/ProgressField'
 import dataModifier from '@/mixins/dataModifier'
+import DateField from './components/DateField'
 
 export default {
   name: 'ProjectDescription',
@@ -78,6 +77,7 @@ export default {
     dataModifier('params', 'project')
   ],
   components: {
+    DateField,
     MembersField,
     AutoTextarea,
     SaleTypeField,
@@ -95,8 +95,8 @@ export default {
       name: '',
       customer_information: '',
       notes: '',
-      delivery_date: '',
-      signatured_date: '',
+      delivery_date: null,
+      signature_date: null,
     }
   }),
   methods: {

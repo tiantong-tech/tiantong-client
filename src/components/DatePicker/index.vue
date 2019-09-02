@@ -92,27 +92,16 @@ export default {
 }
 </script>
 
-<style lang="stylus">
-$calendar_background = #ffffff
-$calendar_border_color = #d3d6db
-
-$months_color = #111
-$months_background = transparent
-
-$weekdays_background = transparent
-
-$day_text_color = #222324
-$day_hover_background_color = #d3d6db
-
-$today_color = #ed6c63
-$selected_day_background = #1fc8db
-
+<style lang="sass">
 @import '~flatpickr/dist/flatpickr.min.css'
 @import '~flatpickr/dist/themes/material_blue.css'
 
 .flatpickr-calendar
   margin-top: 0.375rem
 
-.flatpickr-calendar.hasWeeks
-  width: auto !important
+.dayContainer
+  padding: 0.5rem 0.25rem 0.25rem 0.25rem
+
+span.flatpickr-day
+  margin-bottom: 0.125rem
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div id="members-field" class="field">
+  <div v-if="isLoaded" id="members-field" class="field">
     <label class="label">销售负责人</label>
     <div class="control">
       <a
@@ -67,7 +67,7 @@
 </template>
 
 <script>
-import users from '@/providers/users'
+import users from '@/providers/users.js'
 
 export default {
   name: 'MembersField',
@@ -82,6 +82,7 @@ export default {
   }),
   computed: {
     users: users.items,
+    isLoaded: () => users.state.isLoaded,
     valuesName () {
       return this.value.map(id => users.state.data[id].name || '(未知用户)').join('，')
     }

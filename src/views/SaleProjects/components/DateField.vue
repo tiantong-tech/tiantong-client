@@ -1,5 +1,5 @@
 <template>
-  <div class="field" style="width: 280px">
+  <div class="field" v-style:width="width">
     <label class="label">
       {{text || '截止日期'}}
     </label>
@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import DatePicker from '@/components/DatePicker'
+import DatePicker from '@/components/DatePicker/index.vue'
 
 export default {
   components: {
@@ -22,7 +22,11 @@ export default {
   },
   props: {
     value: {},
-    text: {}
+    text: {},
+    width: {
+      type: String,
+      default: '280px'
+    }
   }
 }
 </script>
