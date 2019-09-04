@@ -37,7 +37,7 @@
       <div class="column">
         <DateField
           width="100%"
-          text="截止日期"
+          text="签约日期"
           v-model="params.signature_date"
         ></DateField>
       </div>

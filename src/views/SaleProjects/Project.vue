@@ -106,14 +106,18 @@ export default {
         .then(response => this.project = response.data)
         .finally(() => this.isLoading = false)
     },
-    handleRefresh ({ schema_id, drawing_id } = {}) {
+    handleRefresh ({ schema_id, drawing_id, quotation_ids } = {}) {
       this.getDataSource()
         .then(() => {
           if (schema_id) {
-            this.$router.push(this.baseUrl + `schemas/${schema_id}`)
+            this.$router.push(`${this.baseUrl}schemas/${schema_id}`)
           }
           if (drawing_id) {
-            this.$router.push(this.baseUrl + `schemas/${this.schema_id}/drawing`)
+            this.$router.push(`${this.baseUrl}schemas/${this.schema_id}/drawing`)
+          }
+          if (quotation_ids) {
+            const [ id ] = quotation_ids
+            this.$router.push(`${this.baseUrl}schemas/${this.schema_id}/quotations/${id}`)
           }
         })
     }

@@ -34,7 +34,6 @@ export default {
 
       axios.post('/quotations/create', this.params)
         .then(response => {
-          console.log(response.data)
           this.$emit('refresh', {
             quotation_ids: response.data.quotation_ids
           })

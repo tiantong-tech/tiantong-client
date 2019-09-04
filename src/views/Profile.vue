@@ -56,7 +56,6 @@
 <script>
 import dataModifier from '@/mixins/data-editor.js'
 import token from '@/providers/token'
-import axios from '@/providers/axios'
 
 export default {
   name: 'Profile',

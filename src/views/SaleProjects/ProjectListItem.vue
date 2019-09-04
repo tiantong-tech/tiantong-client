@@ -17,11 +17,7 @@
       tag="td" :value="project.created_at"
     ></TimeWrapper>
     <td>
-      <ListItemStatusItem
-        v-for="(value, key) in project.status" :key="key"
-        :value="value"
-      >
-      </ListItemStatusItem>
+      {{project.progress}}
     </td>
   </tr>
 </template>

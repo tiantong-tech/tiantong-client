@@ -80,7 +80,7 @@ export default {
   data: () => ({
     menus: [
       { path: '', text: '基本信息', dev: true },
-      { path: 'activities', text: '活动', dev: true },
+      // { path: 'activities', text: '活动', dev: true },
       { path: 'files', text: '文件', dev: true },
       { path: 'settings', text: '设置', dev: true },
     ]

@@ -4,7 +4,12 @@
     <div class="is-flex">
       <div class="field has-addons">
         <div class="control">
-          <input type="text" class="input">
+          <input
+            v-model="params.search"
+            @keypress.enter="search"
+            type="text" class="input"
+            placeholder="销售 / 公司 / 项目"
+          >
         </div>
         <div class="control">
           <a
