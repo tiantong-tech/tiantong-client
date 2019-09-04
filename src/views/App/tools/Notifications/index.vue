@@ -39,6 +39,11 @@ export default {
   },
   created () {
     Vue.prototype.$notify = this.add
+    this.add({
+      type: 'success',
+      text: 'asdfasdf',
+      duration: 1000000,
+    })
   }
 }
 </script>

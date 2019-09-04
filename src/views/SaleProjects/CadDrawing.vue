@@ -21,13 +21,17 @@
 
 <script>
 import axios from '@/providers/axios'
-import dataModifier from '@/mixins/dataModifier'
+import dataModifier from '@/mixins/data-editor.js'
 import DateField from './components/DateField'
 
 export default {
   name: 'CadDrawingDetail',
   mixins: [
-    dataModifier('params', 'drawing')
+    new dataModifier({
+      data: 'drawing',
+      paramsId: 'cad_drawing_id',
+      url: '/cad/drawings/update',
+    })
   ],
   components: {
     DateField
@@ -42,18 +46,7 @@ export default {
     }
   }),
   methods: {
-    handleSave () {
-      if (!this.isChanged) return
 
-      this.params.cad_drawing_id = this.drawing.id
-      axios.post('/cad/drawings/update', this.params)
-        .then(() => {
-          this.$notify({ text: '设计图信息已更新' })
-          for (let key in this.params) {
-            this.drawing[key] = this.params[key]
-          }
-        })
-    }
   }
 }
 </script>

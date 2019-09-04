@@ -54,14 +54,17 @@
 </template>
 
 <script>
-import dataModifier from '@/mixins/dataModifier'
+import dataModifier from '@/mixins/data-editor.js'
 import token from '@/providers/token'
 import axios from '@/providers/axios'
 
 export default {
   name: 'Profile',
   mixins: [
-    dataModifier('params', 'user')
+    new dataModifier({
+      data: 'user',
+      url: 'user/update'
+    })
   ],
   data: () => ({
     params: {
@@ -78,18 +81,7 @@ export default {
     }
   },
   methods: {
-    handleSave () {
-      axios.post('user/update', this.params)
-        .then(() => {
-          this.$notify({
-            text: '信息已更新'
-          })
-          for (let key in this.params) {
-            this.user[key] = this.params[key]
-          }
-          window.scrollTo(0, 0)
-        })
-    }
+
   }
 }
 </script>

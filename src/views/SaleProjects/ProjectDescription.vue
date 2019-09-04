@@ -68,13 +68,17 @@ import AutoTextarea from '@/components/Textarea'
 import MembersField from './components/MembersField'
 import SaleTypeField from './components/SaleTypeField'
 import ProgressField from './components/ProgressField'
-import dataModifier from '@/mixins/dataModifier'
+import dataModifier from '@/mixins/data-editor.js'
 import DateField from './components/DateField'
 
 export default {
   name: 'ProjectDescription',
   mixins: [
-    dataModifier('params', 'project')
+    new dataModifier({
+      data: 'project',
+      paramsId: 'project_id',
+      url: '/projects/update'
+    })
   ],
   components: {
     DateField,
@@ -100,19 +104,7 @@ export default {
     }
   }),
   methods: {
-    handleSave () {
-      if (!this.isChanged) return
-      const params = this.changedParams
-      params.project_id = this.project.id
-      axios.post('/projects/update', params)
-        .then(() => {
-          for (let key in params) {
-            this.project[key] = params[key]
-          }
-          window.scrollTo(0, 0)
-          this.$notify({ text: '销售信息已更新' })
-        })
-    }
+
   }
 }
 </script>

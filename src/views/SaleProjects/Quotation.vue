@@ -35,7 +35,7 @@
 
 <script>
 import axios from '@/providers/axios'
-import dataModifier from '@/mixins/dataModifier'
+import dataModifier from '@/mixins/data-editor.js'
 import AutoTextarea from '@/components/Textarea'
 import DateField from './components/DateField.vue'
 import { getQuotationTypeText } from './components/quotation.js'
@@ -43,7 +43,11 @@ import { getQuotationTypeText } from './components/quotation.js'
 export default {
   name: 'Quotation',
   mixins: [
-    dataModifier('params', 'quotation')
+    new dataModifier({
+      data: 'quotation',
+      paramsId: 'quotation_id',
+      url: '/quotations/update',
+    })
   ],
   components: {
     DateField,
@@ -61,18 +65,6 @@ export default {
   }),
   methods: {
     getQuotationTypeText,
-    handleSave () {
-      const params = this.changedParams
-      params.quotation_id = this.quotation.id
-      axios.post('/quotations/update', params)
-        .then(() => {
-          for (let key in params) {
-            this.quotation[key] = params[key]
-          }
-          window.scrollTo(0, 0)
-          this.$notify({ text: '依赖书信息已更新' })
-        })
-    }
   }
 }
 </script>

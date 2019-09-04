@@ -48,7 +48,7 @@
 
 <script>
 import axios from '@/providers/axios'
-import dataModifier from '@/mixins/dataModifier'
+import dataModifier from '@/mixins/data-editor.js'
 import AutoTextarea from '@/components/Textarea'
 import HoisterSchema from './components/HoisterSchema'
 import SchemaStatusField from './components/SchemaStatusField'
@@ -56,7 +56,11 @@ import SchemaStatusField from './components/SchemaStatusField'
 export default {
   name: 'SchemaDescription',
   mixins: [
-    dataModifier('params', 'schema')
+    new dataModifier({
+      data: 'schema',
+      paramsId: 'design_schema_id',
+      url: '/design/schemas/update',
+    })
   ],
   components: {
     AutoTextarea,
@@ -90,19 +94,6 @@ export default {
           })
       })
     },
-    handleSave () {
-      if (!this.isChanged) return
-      const params = this.changedParams
-      params.design_schema_id = this.schema.id
-      axios.post('/design/schemas/update', params)
-        .then(() => {
-          for (let key in params) {
-            this.schema[key] = params[key]
-          }
-          window.scrollTo(0, 0)
-          this.$notify({ text: '依赖书信息已更新' })
-        })
-    }
   }
 }
 </script>
