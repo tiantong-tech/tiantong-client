@@ -1,23 +1,16 @@
 <template>
-  <div :class="'box is-' + type">
-    <p
-      class="is-flex"
-      style="align-items: center; justify-content: center; min-height: 2rem"
-    >
-      <span
-        class="is-flex-auto is-flex"
-        style="align-items: center; justify-content: center"
-      >
-        <template v-if="type">
-          <span :class="'icon has-text-' + type">
-            <i :class="'iconfont icon-' + type" style="font-size: 1.75rem"></i>
-          </span>
-          <span style="width: 1rem"></span>
-        </template>
-        <span>{{text}}</span>
+  <div :class="`notification is-${type}`">
+    <template v-if="type">
+      <span :class="'icon has-text-' + type">
+        <i :class="'iconfont icon-' + type" style="font-size: 1.75rem"></i>
       </span>
-      <button @click="close" class="delete is-medium"></button>
-    </p>
+      <span style="width: 1rem"></span>
+    </template>
+    <span>{{text}}</span>
+    <span class="is-flex-auto"></span>
+    <span class="is-flex is-vcentered">
+      <button @click="close" class="delete"></button>
+    </span>
   </div>
 </template>
 

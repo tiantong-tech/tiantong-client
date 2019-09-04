@@ -1,5 +1,5 @@
 <template>
-  <div class="app-notifications">
+  <div class="app-notifications is-flex is-flex-column is-vcentered">
     <Notification
       v-for="item in items" :key="item.id"
       @close="remove(item.id)"
@@ -39,11 +39,6 @@ export default {
   },
   created () {
     Vue.prototype.$notify = this.add
-    this.add({
-      type: 'success',
-      text: 'asdfasdf',
-      duration: 1000000,
-    })
   }
 }
 </script>
