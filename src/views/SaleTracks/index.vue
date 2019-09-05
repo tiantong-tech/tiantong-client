@@ -6,12 +6,12 @@
     <keep-alive>
       <router-view
         @close="$router.push('/sale/tracks')"
-        @updated="refresh"
-        :item="item"
+        @updated="getDataSet"
+        :item="find(id)"
       ></router-view>
     </keep-alive>
     <div
-      v-if="isNoneSelected"
+      v-if="isSelectedNone"
       class="is-flex" style="height: 48px"
     >
       <div class="field has-addons">
@@ -31,14 +31,14 @@
         <div class="control">
           <input
             v-model="params.search"
-            @keypress.enter="search"
+            @keypress.enter="getDataSet"
             type="text" class="input"
             placeholder=""
           >
         </div>
         <div class="control">
           <a
-            @click="search"
+            @click="getDataSet"
             class="button is-info"
             :class="isLoading && 'is-loading'"
           >
@@ -75,7 +75,7 @@
           <tr>
             <th
               class="is-checkbox"
-              @click="handleSelectAll"
+              @click="selectAll"
             >
               <Checkbox :value="selectedStatus"></Checkbox>
             </th>
@@ -91,7 +91,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="item in items" :key="item.id">
+          <tr v-for="item in dataSet" :key="item.id">
             <td
               class="is-checkbox"
               @click="item.$selected = !item.$selected"
@@ -130,24 +130,24 @@
 </template>
 
 <script>
-import axios from '@/providers/axios'
 import enums from '@/providers/enums'
-import dataSource from '@/mixins/dataSource'
-import Pagination from '@/components/Pagination'
+import dataSet from '@/mixins/data-set.js'
 import TimeWrapper from '@/components/wrappers/Time'
 
 export default {
   name: 'SaleTracks',
   components: {
-    Pagination,
     TimeWrapper
   },
-  mixins: [ dataSource ],
+  mixins: [
+    new dataSet({
+      url: 'sale/tracks'
+    })
+  ],
   props: {
-
+    id: {}
   },
   data: () => ({
-
   }),
   computed: {
     statuses () {
@@ -155,28 +155,6 @@ export default {
     }
   },
   methods: {
-    handleDelete () {
-      const ids = this.selectedIds
-      const handleThen = () => {
-        this.$notify({
-          type: 'success',
-          text: '信息已删除'
-        })
-        this.search()
-      }
-
-      this.$confirm({
-        title: '删除信息',
-        content: '选中的信息将被删除',
-        handler: () => axios.post('sale/tracks/delete', { ids }).then(handleThen)
-      })
-    }
-  },
-  created () {
-    this.initialize({
-      url: 'sale/tracks/search',
-      params: { status: undefined }
-    })
   }
 }
 </script>

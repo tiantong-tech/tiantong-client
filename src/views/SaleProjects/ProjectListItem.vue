@@ -24,7 +24,6 @@
 
 <script>
 import TimeWrapper from '@/components/wrappers/Time'
-import ListItemStatusItem from './ProjectListItemStatusItem'
 
 export default {
   name: 'ProjectItem',
@@ -32,8 +31,7 @@ export default {
     project: Object
   },
   components: {
-    TimeWrapper,
-    ListItemStatusItem,
+    TimeWrapper
   },
   methods: {
     handleRowClick (id) {

@@ -6,7 +6,7 @@
         <div class="control">
           <input
             v-model="params.search"
-            @keypress.enter="search"
+            @keypress.enter="getDataSet"
             type="text" class="input"
             placeholder="销售 / 公司 / 项目"
           >
@@ -14,7 +14,7 @@
         <div class="control">
           <a
             class="button is-info"
-            @click="search"
+            @click="getDataSet"
           >
             <span class="icon">
               <i class="iconfont icon-search"></i>
@@ -46,29 +46,34 @@
       </thead>
       <tbody>
         <ListItem
-          v-for="item in items" :key="item.id"
-          :project="item"
+          v-for="data in dataSet" :key="data.id"
+          :project="data"
         ></ListItem>
       </tbody>
     </table>
+    <Pagination
+      style="margin: 1rem 0 1rem"
+      v-if="!isLoading"
+      v-bind="meta"
+      @change="changePage"
+    ></Pagination>
     <router-view></router-view>
   </div>
 </template>
 
 <script>
-import dataSource from '@/mixins/dataSource'
+import dataSet from '@/mixins/data-set.js'
 import ListItem from './ProjectListItem'
 
 export default {
   name: 'SaleProjects',
-  mixins: [ dataSource ],
+  mixins: [
+    new dataSet({
+      url: '/projects'
+    })
+  ],
   components: {
     ListItem
-  },
-  created () {
-    this.initialize({
-      url: '/projects/search'
-    })
   }
 }
 </script>

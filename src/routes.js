@@ -37,6 +37,7 @@ export default [
   {
     path: '/sale/tracks',
     name: 'sale tracks',
+    props: true,
     meta: {
       groups: ['root', 'admin', 'sale'],
     },
@@ -44,6 +45,7 @@ export default [
     children: [
       {
         path: ':id/data',
+        props: true,
         name: 'sale track detail',
         component: () => import('@/views/SaleTracks/Detail.vue')
       },

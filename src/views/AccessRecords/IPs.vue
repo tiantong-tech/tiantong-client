@@ -14,7 +14,7 @@
         <th>最后浏览</th>
       </thead>
       <tbody>
-        <tr v-for="item in items" :key="item.id">
+        <tr v-for="item in dataSet" :key="item.id">
           <td>{{item.address}}</td>
           <Location :data="item"></Location>
           <td>{{item.devices}}</td>
@@ -35,22 +35,18 @@
 </template>
 
 <script>
-import dataSource from '@/mixins/dataSource'
+import dataSet from '@/mixins/data-set.js'
 import Location from './LocationWrapper'
 
 export default {
   name: 'IPs',
-  mixins: [ dataSource ],
+  mixins: [
+    new dataSet({
+      url: '/yuchuan/access/ips'
+    })
+  ],
   components: {
     Location
-  },
-  created () {
-    this.initialize({
-      url: '/yuchuan/access/ips/search',
-      params: {
-        page_size: 20
-      }
-    })
   }
 }
 </script>

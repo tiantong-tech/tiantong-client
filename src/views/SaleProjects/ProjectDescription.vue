@@ -63,7 +63,6 @@
 </template>
 
 <script>
-import axios from '@/providers/axios'
 import AutoTextarea from '@/components/Textarea'
 import MembersField from './components/MembersField'
 import SaleTypeField from './components/SaleTypeField'

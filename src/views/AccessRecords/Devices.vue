@@ -12,7 +12,7 @@
         <th>最后浏览</th>
       </thead>
       <tbody>
-        <tr v-for="item in items" :key="item.id">
+        <tr v-for="item in dataSet" :key="item.id">
           <td>{{item.counts}}</td>
           <td>{{item.ips}}</td>
           <td>{{item.resources}}</td>
@@ -31,22 +31,14 @@
 </template>
 
 <script>
-import dataSource from '@/mixins/dataSource'
-// import TimeWrapper from '@/components/wrappers/Time'
+import dataSet from '@/mixins/data-set.js'
 
 export default {
   name: 'Devices',
-  mixins: [ dataSource ],
-  components: {
-    // TimeWrapper,
-  },
-  created () {
-    this.initialize({
-      url: '/yuchuan/access/devices/search',
-      params: {
-        page_size: 20
-      }
+  mixins: [
+    new dataSet({
+      url: '/yuchuan/access/devices'
     })
-  }
+  ]
 }
 </script>

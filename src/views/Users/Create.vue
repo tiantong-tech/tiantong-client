@@ -126,7 +126,7 @@ export default {
     params: {
       type: 'admin',
       name: '',
-      email: '',
+      email: null,
       username: '',
       password: '',
       phone_number: ''

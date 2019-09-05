@@ -20,7 +20,6 @@
 </template>
 
 <script>
-import axios from '@/providers/axios'
 import dataModifier from '@/mixins/data-editor.js'
 import DateField from './components/DateField'
 

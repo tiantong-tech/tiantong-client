@@ -79,13 +79,13 @@
 
 <script>
 import NewsItem from './Item'
-import dataSource from '@/mixins/dataSource'
+import dataSet from '@/mixins/data-set.js'
 import Pagination from '@/components/Pagination'
 import axios from '@/providers/axios'
 
 export default {
   name: 'News',
-  mixins: [ dataSource ],
+  mixins: [ dataSet ],
   components: {
     NewsItem,
     Pagination

@@ -12,7 +12,7 @@
         <th>浏览时间</th>
       </thead>
       <tbody>
-        <tr v-for="item in items" :key="item.id">
+        <tr v-for="item in dataSet" :key="item.id">
           <td>{{item.ip}}</td>
           <Location :data="item"></Location>
           <td>网页</td>
@@ -33,22 +33,18 @@
 </template>
 
 <script>
-import dataSource from '@/mixins/dataSource'
+import dataSet from '@/mixins/data-set.js'
 import Location from './LocationWrapper'
 
 export default {
   name: 'Records',
-  mixins: [ dataSource ],
+  mixins: [
+    new dataSet({
+      url: '/yuchuan/access/records'
+    })
+  ],
   components: {
     Location
-  },
-  created () {
-    this.initialize({
-      url: '/yuchuan/access/records/search',
-      params: {
-        page_size: 20
-      }
-    })
   }
 }
 </script>

@@ -2,18 +2,15 @@
   <div class="container" style="margin-top: 2rem; width: 1024px">
     <keep-alive>
       <router-view
-        @created="search"
+        @created="getDataSet"
       ></router-view>
     </keep-alive>
-    <div
-      v-if="isNoneSelected"
-      class="is-flex"
-    >
+    <div v-if="isSelectedNone" class="is-flex">
       <div class="field has-addons">
         <div class="control">
           <input
             v-model="params.search"
-            @keypress.enter="search"
+            @keypress.enter="getDataSet"
             type="text" class="input"
             placeholder="Id / 用户名 / 邮箱"
           >
@@ -22,7 +19,7 @@
           <a
             class="button is-info"
             :class="isLoading && 'is-loading'"
-            @click="search"
+            @click="getDataSet"
           >
             <span class="icon">
               <i class="iconfont icon-search"></i>
@@ -63,7 +60,7 @@
           <tr>
             <th
               class="is-checkbox"
-              @click="handleSelectAll"
+              @click="selectAll"
             >
               <Checkbox
                 :value="selectedStatus"
@@ -78,7 +75,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="user in items" :key="user.id">
+          <tr v-for="user in dataSet" :key="user.id">
             <td
               class="is-checkbox"
               @click="user.$selected = !user.$selected"
@@ -108,42 +105,23 @@
 </template>
 
 <script>
-import axios from '@/providers/axios'
-import dataSource from '@/mixins/dataSource'
-import Pagination from '@/components/Pagination'
+import dataSet from '@/mixins/data-set.js'
 import TimeWrapper from '@/components/wrappers/Time'
 import CellGroups from './CellGroups'
 
 export default {
   name: 'users',
   components: {
-    Pagination,
     CellGroups,
     TimeWrapper
   },
-  mixins: [ dataSource ],
-  methods: {
-    handleDelete () {
-      const ids = this.selectedIds
-      const handleThen = () => {
-        this.$notify({
-          type: 'success',
-          text: '信息已删除'
-        })
-        this.search()
-      }
-
-      this.$confirm({
-        title: '删除用户',
-        content: '确认将删除所有选中的用户',
-        handler: () => axios.post('users/delete', { ids }).then(handleThen)
-      })
-    }
-  },
-  created () {
-    this.initialize({
-      url: '/users/search'
+  mixins: [
+    new dataSet({
+      url: '/users'
     })
+  ],
+  methods: {
+
   }
 }
 </script>

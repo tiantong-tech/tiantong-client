@@ -24,9 +24,6 @@ export default {
     value: {}
   },
   data: () => ({
-    value: false
-  }),
-  data: () => ({
     options: [
       { value: false, text: '完善中' },
       { value: true, text: '已完善' }

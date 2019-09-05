@@ -34,7 +34,6 @@
 </template>
 
 <script>
-import axios from '@/providers/axios'
 import dataModifier from '@/mixins/data-editor.js'
 import AutoTextarea from '@/components/Textarea'
 import DateField from './components/DateField.vue'
