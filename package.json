@@ -27,7 +27,7 @@
     "bulma": "^0.7.5",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
-    "froala-editor": "^3.0.4",
+    "froala-editor": "^4.0.7",
     "node-sass": "^4.12.0",
     "sass-loader": "^7.1.0",
     "stylus": "^0.54.5",
